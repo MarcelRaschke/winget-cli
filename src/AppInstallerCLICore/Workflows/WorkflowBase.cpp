@@ -36,6 +36,53 @@ namespace AppInstaller::CLI::Workflow
             context.Reporter.Info() << Resource::String::ReportIdentityFound << ' ' << Execution::NameEmphasis << name << " [" << Execution::IdEmphasis << id << ']' << std::endl;
         }
 
+        std::shared_ptr<ISource> OpenNamedSource(Execution::Context& context, std::string_view sourceName)
+        {
+            std::shared_ptr<Repository::ISource> source;
+            try
+            {
+                auto result = context.Reporter.ExecuteWithProgress(std::bind(Repository::OpenSource, sourceName, std::placeholders::_1), true);
+                source = result.Source;
+
+                // We'll only report the source update failure as warning and continue
+                for (const auto& s : result.SourcesWithUpdateFailure)
+                {
+                    context.Reporter.Warn() << Resource::String::SourceOpenWithFailedUpdate << ' ' << s.Name << std::endl;
+                }
+            }
+            catch (...)
+            {
+                context.Reporter.Error() << Resource::String::SourceOpenFailedSuggestion << std::endl;
+                throw;
+            }
+
+            if (!source)
+            {
+                std::vector<SourceDetails> sources = GetSources();
+
+                if (!sourceName.empty() && !sources.empty())
+                {
+                    // A bad name was given, try to help.
+                    context.Reporter.Error() << Resource::String::OpenSourceFailedNoMatch << ' ' << sourceName << std::endl;
+                    context.Reporter.Info() << Resource::String::OpenSourceFailedNoMatchHelp << std::endl;
+                    for (const auto& details : sources)
+                    {
+                        context.Reporter.Info() << "  "_liv << details.Name << std::endl;
+                    }
+
+                    AICLI_TERMINATE_CONTEXT_RETURN(APPINSTALLER_CLI_ERROR_SOURCE_NAME_DOES_NOT_EXIST, {});
+                }
+                else
+                {
+                    // Even if a name was given, there are no sources
+                    context.Reporter.Error() << Resource::String::OpenSourceFailedNoSourceDefined << std::endl;
+                    AICLI_TERMINATE_CONTEXT_RETURN(APPINSTALLER_CLI_ERROR_NO_SOURCES_DEFINED, {});
+                }
+            }
+
+            return source;
+        }
+
         void SearchSourceApplyFilters(Execution::Context& context, SearchRequest& searchRequest, MatchType matchType)
         {
             const auto& args = context.Args;
@@ -102,50 +149,30 @@ namespace AppInstaller::CLI::Workflow
             sourceName = context.Args.GetArg(Execution::Args::Type::Source);
         }
 
-        std::shared_ptr<Repository::ISource> source;
-        try
+        auto source = OpenNamedSource(context, sourceName);
+        if (context.IsTerminated())
         {
-            auto result = context.Reporter.ExecuteWithProgress(std::bind(Repository::OpenSource, sourceName, std::placeholders::_1), true);
-            source = result.Source;
-
-            // We'll only report the source update failure as warning and continue
-            for (const auto& s : result.SourcesWithUpdateFailure)
-            {
-                context.Reporter.Warn() << Resource::String::SourceOpenWithFailedUpdate << ' ' << s.Name << std::endl;
-            }
-        }
-        catch (...)
-        {
-            context.Reporter.Error() << Resource::String::SourceOpenFailedSuggestion << std::endl;
-            throw;
+            return;
         }
 
-        if (!source)
+        context.Add<Execution::Data::Source>(std::move(source));
+    }
+
+    void OpenNamedSourceForSources::operator()(Execution::Context& context) const
+    {
+        auto source = OpenNamedSource(context, m_sourceName);
+        if (context.IsTerminated())
         {
-            std::vector<SourceDetails> sources = GetSources();
+            return;
+        }
 
-            if (context.Args.Contains(Execution::Args::Type::Source) && !sources.empty())
-            {
-                // A bad name was given, try to help.
-                context.Reporter.Error() << Resource::String::OpenSourceFailedNoMatch << ' ' << context.Args.GetArg(Execution::Args::Type::Source) << std::endl;
-                context.Reporter.Info() << Resource::String::OpenSourceFailedNoMatchHelp << std::endl;
-                for (const auto& details : sources)
-                {
-                    context.Reporter.Info() << "  "_liv << details.Name << std::endl;
-                }
-
-                AICLI_TERMINATE_CONTEXT(APPINSTALLER_CLI_ERROR_SOURCE_NAME_DOES_NOT_EXIST);
-            }
-            else
-            {
-                // Even if a name was given, there are no sources
-                context.Reporter.Error() << Resource::String::OpenSourceFailedNoSourceDefined << std::endl;
-                AICLI_TERMINATE_CONTEXT(APPINSTALLER_CLI_ERROR_NO_SOURCES_DEFINED);
-            }
+        if (!context.Contains(Execution::Data::Sources))
+        {
+            context.Add<Execution::Data::Sources>({ std::move(source) });
         }
         else
         {
-            context.Add<Execution::Data::Source>(std::move(source));
+            context.Get<Execution::Data::Sources>().emplace_back(std::move(source));
         }
     }
 
@@ -336,7 +363,7 @@ namespace AppInstaller::CLI::Workflow
     {
         auto& searchResult = context.Get<Execution::Data::SearchResult>();
 
-        Execution::TableOutput<5> table(context.Reporter,
+        Execution::TableOutput<2> table(context.Reporter,
             {
                 Resource::String::SearchName,
                 Resource::String::SearchId
@@ -349,6 +376,47 @@ namespace AppInstaller::CLI::Workflow
             table.OutputLine({
                 package->GetProperty(PackageProperty::Name),
                 package->GetProperty(PackageProperty::Id)
+                });
+        }
+
+        table.Complete();
+
+        if (searchResult.Truncated)
+        {
+            context.Reporter.Info() << '<' << Resource::String::SearchTruncated << '>' << std::endl;
+        }
+    }
+
+    void ReportMultiplePackageFoundResultWithSource(Execution::Context& context)
+    {
+        auto& searchResult = context.Get<Execution::Data::SearchResult>();
+
+        Execution::TableOutput<3> table(context.Reporter,
+            {
+                Resource::String::SearchName,
+                Resource::String::SearchId,
+                Resource::String::SearchSource
+            });
+
+        for (size_t i = 0; i < searchResult.Matches.size(); ++i)
+        {
+            auto package = searchResult.Matches[i].Package;
+
+            std::string sourceName;
+            auto latest = package->GetLatestAvailableVersion();
+            if (latest)
+            {
+                auto source = latest->GetSource();
+                if (source)
+                {
+                    sourceName = source->GetDetails().Name;
+                }
+            }
+
+            table.OutputLine({
+                package->GetProperty(PackageProperty::Name),
+                package->GetProperty(PackageProperty::Id),
+                std::move(sourceName)
                 });
         }
 
@@ -454,13 +522,13 @@ namespace AppInstaller::CLI::Workflow
                 if (m_isFromInstalledSource)
                 {
                     context.Reporter.Warn() << Resource::String::MultipleInstalledPackagesFound << std::endl;
+                    context << ReportMultiplePackageFoundResult;
                 }
                 else
                 {
                     context.Reporter.Warn() << Resource::String::MultiplePackagesFound << std::endl;
+                    context << ReportMultiplePackageFoundResultWithSource;
                 }
-
-                context << ReportMultiplePackageFoundResult;
 
                 AICLI_TERMINATE_CONTEXT(APPINSTALLER_CLI_ERROR_MULTIPLE_APPLICATIONS_FOUND);
             }
@@ -472,12 +540,9 @@ namespace AppInstaller::CLI::Workflow
         };
     }
 
-    void GetManifestFromPackage(Execution::Context& context)
+    void GetManifestWithVersionFromPackage::operator()(Execution::Context& context) const
     {
-        std::string_view version = context.Args.GetArg(Execution::Args::Type::Version);
-        std::string_view channel = context.Args.GetArg(Execution::Args::Type::Channel);
-
-        PackageVersionKey key("", version, channel);
+        PackageVersionKey key("", m_version, m_channel);
         auto requestedVersion = context.Get<Execution::Data::Package>()->GetAvailableVersion(key);
 
         std::optional<Manifest::Manifest> manifest;
@@ -488,23 +553,37 @@ namespace AppInstaller::CLI::Workflow
 
         if (!manifest)
         {
-            context.Reporter.Error() << Resource::String::GetManifestResultVersionNotFound << ' ';
-            if (!version.empty())
+            auto errorStream = context.Reporter.Error();
+            errorStream << Resource::String::GetManifestResultVersionNotFound << ' ';
+            if (!m_version.empty())
             {
-                context.Reporter.Error() << version;
+                errorStream << m_version;
             }
-            if (!channel.empty())
+            if (!m_channel.empty())
             {
-                context.Reporter.Error() << '[' << channel << ']';
+                errorStream << '[' << m_channel << ']';
             }
 
-            context.Reporter.Error() << std::endl;
+            errorStream << std::endl;
             AICLI_TERMINATE_CONTEXT(APPINSTALLER_CLI_ERROR_NO_MANIFEST_FOUND);
         }
 
-        Logging::Telemetry().LogManifestFields(manifest->Id, manifest->Name, manifest->Version);
+        Logging::Telemetry().LogManifestFields(manifest->Id, manifest->DefaultLocalization.Get<Manifest::Localization::PackageName>(), manifest->Version);
+
+        std::string targetLocale;
+        if (context.Args.Contains(Execution::Args::Type::Locale))
+        {
+            targetLocale = context.Args.GetArg(Execution::Args::Type::Locale);
+        }
+        manifest->ApplyLocale(targetLocale);
+
         context.Add<Execution::Data::Manifest>(std::move(manifest.value()));
         context.Add<Execution::Data::PackageVersion>(std::move(requestedVersion));
+    }
+
+    void GetManifestFromPackage(Execution::Context& context)
+    {
+        context << GetManifestWithVersionFromPackage(context.Args.GetArg(Execution::Args::Type::Version), context.Args.GetArg(Execution::Args::Type::Channel));
     }
 
     void VerifyFile::operator()(Execution::Context& context) const
@@ -524,16 +603,35 @@ namespace AppInstaller::CLI::Workflow
         }
     }
 
+    void VerifyPath::operator()(Execution::Context& context) const
+    {
+        std::filesystem::path path = Utility::ConvertToUTF16(context.Args.GetArg(m_arg));
+
+        if (!std::filesystem::exists(path))
+        {
+            context.Reporter.Error() << Resource::String::VerifyPathFailedNotExist << ' ' << path.u8string() << std::endl;
+            AICLI_TERMINATE_CONTEXT(HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND));
+        }
+    }
+
     void GetManifestFromArg(Execution::Context& context)
     {
         Logging::Telemetry().LogIsManifestLocal(true);
 
         context <<
-            VerifyFile(Execution::Args::Type::Manifest) <<
+            VerifyPath(Execution::Args::Type::Manifest) <<
             [](Execution::Context& context)
         {
             Manifest::Manifest manifest = Manifest::YamlParser::CreateFromPath(Utility::ConvertToUTF16(context.Args.GetArg(Execution::Args::Type::Manifest)));
-            Logging::Telemetry().LogManifestFields(manifest.Id, manifest.Name, manifest.Version);
+            Logging::Telemetry().LogManifestFields(manifest.Id, manifest.DefaultLocalization.Get<Manifest::Localization::PackageName>(), manifest.Version);
+
+            std::string targetLocale;
+            if (context.Args.Contains(Execution::Args::Type::Locale))
+            {
+                targetLocale = context.Args.GetArg(Execution::Args::Type::Locale);
+            }
+            manifest.ApplyLocale(targetLocale);
+
             context.Add<Execution::Data::Manifest>(std::move(manifest));
         };
     }
@@ -547,7 +645,7 @@ namespace AppInstaller::CLI::Workflow
     void ReportManifestIdentity(Execution::Context& context)
     {
         const auto& manifest = context.Get<Execution::Data::Manifest>();
-        ReportIdentity(context, manifest.Name, manifest.Id);
+        ReportIdentity(context, manifest.CurrentLocalization.Get<Manifest::Localization::PackageName>(), manifest.Id);
     }
 
     void GetManifest(Execution::Context& context)
@@ -555,8 +653,7 @@ namespace AppInstaller::CLI::Workflow
         if (context.Args.Contains(Execution::Args::Type::Manifest))
         {
             context <<
-                GetManifestFromArg <<
-                ReportManifestIdentity;
+                GetManifestFromArg;
         }
         else
         {
@@ -564,7 +661,6 @@ namespace AppInstaller::CLI::Workflow
                 OpenSource <<
                 SearchSourceForSingle <<
                 EnsureOneMatchFromSearchResult(false) <<
-                ReportPackageIdentity <<
                 GetManifestFromPackage;
         }
     }
@@ -579,7 +675,7 @@ namespace AppInstaller::CLI::Workflow
             installationMetadata = context.Get<Execution::Data::InstalledPackageVersion>()->GetMetadata();
         }
 
-        ManifestComparator manifestComparator(context.Args, std::move(installationMetadata));
+        ManifestComparator manifestComparator(context.Args, installationMetadata);
         context.Add<Execution::Data::Installer>(manifestComparator.GetPreferredInstaller(context.Get<Execution::Data::Manifest>()));
     }
 
@@ -637,7 +733,7 @@ namespace AppInstaller::CLI::Workflow
         SearchRequest searchRequest;
         searchRequest.Inclusions.emplace_back(PackageMatchFilter(PackageMatchField::Id, MatchType::CaseInsensitive, manifest.Id));
         // In case there're same Ids from different sources, filter the result using package name
-        searchRequest.Filters.emplace_back(PackageMatchFilter(PackageMatchField::Name, MatchType::CaseInsensitive, manifest.Name));
+        searchRequest.Filters.emplace_back(PackageMatchFilter(PackageMatchField::Name, MatchType::CaseInsensitive, manifest.DefaultLocalization.Get<Manifest::Localization::PackageName>()));
 
         context.Add<Execution::Data::SearchResult>(source->Search(searchRequest));
     }
@@ -649,24 +745,7 @@ namespace AppInstaller::CLI::Workflow
 
     void ReportExecutionStage::operator()(Execution::Context& context) const
     {
-        if (!context.Contains(Execution::Data::ExecutionStage))
-        {
-            context.Add<Execution::Data::ExecutionStage>(m_stage);
-        }
-        else if (context.Get<Execution::Data::ExecutionStage>() == m_stage)
-        {
-            return;
-        }
-        else if (context.Get<Execution::Data::ExecutionStage>() < m_stage || m_allowBackward)
-        {
-            context.Get<Execution::Data::ExecutionStage>() = m_stage;
-        }
-        else
-        {
-            THROW_HR_MSG(HRESULT_FROM_WIN32(ERROR_INVALID_STATE), "Reporting ExecutionStage to an earlier Stage without allowBackward as true");
-        }
-
-        Logging::SetExecutionStage(static_cast<uint32_t>(context.Get<Execution::Data::ExecutionStage>()));
+        context.SetExecutionStage(m_stage, m_allowBackward);
     }
 }
 

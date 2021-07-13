@@ -137,6 +137,9 @@ namespace AppInstaller::Repository::SQLite::Builder
             case Type::Text:
                 out << "TEXT";
                 break;
+            case Type::Blob:
+                out << "BLOB";
+                break;
             default:
                 THROW_HR(E_UNEXPECTED);
             }
@@ -320,6 +323,17 @@ namespace AppInstaller::Repository::SQLite::Builder
     StatementBuilder& StatementBuilder::Like(details::unbound_t)
     {
         AppendOpAndBinder(Op::Like);
+        return *this;
+    }
+
+    StatementBuilder& StatementBuilder::LiteralColumn(std::string_view value)
+    {
+        if (m_needsComma)
+        {
+            m_stream << ", ";
+        }
+        AddBindFunctor(AppendOpAndBinder(Op::Literal), value);
+        m_needsComma = true;
         return *this;
     }
 
@@ -594,6 +608,31 @@ namespace AppInstaller::Repository::SQLite::Builder
         return *this;
     }
 
+    StatementBuilder& StatementBuilder::AlterTable(std::string_view table)
+    {
+        OutputOperationAndTable(m_stream, "ALTER TABLE", table);
+        return *this;
+    }
+
+    StatementBuilder& StatementBuilder::AlterTable(QualifiedTable table)
+    {
+        OutputOperationAndTable(m_stream, "ALTER TABLE", table);
+        return *this;
+    }
+
+    StatementBuilder& StatementBuilder::AlterTable(std::initializer_list<std::string_view> table)
+    {
+        OutputOperationAndTable(m_stream, "ALTER TABLE", table);
+        return *this;
+    }
+
+    StatementBuilder& StatementBuilder::Add(std::string_view column, Type type)
+    {
+        m_stream << " ADD " << column;
+        OutputType(m_stream, type);
+        return *this;
+    }
+
     StatementBuilder& StatementBuilder::DropTable(std::string_view table)
     {
         OutputOperationAndTable(m_stream, "DROP TABLE", table);
@@ -772,6 +811,9 @@ namespace AppInstaller::Repository::SQLite::Builder
             break;
         case Op::Escape:
             m_stream << " ESCAPE ?";
+            break;
+        case Op::Literal:
+            m_stream << " ?";
             break;
         default:
             THROW_HR(E_UNEXPECTED);

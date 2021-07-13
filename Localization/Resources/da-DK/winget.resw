@@ -298,8 +298,9 @@ De kan konfigureres ved hjælp af indstillingsfilen ' winget settings '.</value>
   <data name="InvalidNameError" xml:space="preserve">
     <value>Argument navnet blev ikke genkendt for den aktuelle kommando</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Sprog, der skal installeres (hvis det understøttes)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Landestandard, der skal bruges (BCP47 format)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Licensaftale</value>
@@ -386,10 +387,10 @@ De kan konfigureres ved hjælp af indstillingsfilen ' winget settings '.</value>
     <value>Filtrer resultater efter navn</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Intet installationsprogram er relevant for det aktuelle system.</value>
+    <value>Der blev ikke fundet noget relevant installationsprogram. Se logfilerne for at få flere oplysninger.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
-    <value>Der er i øjeblikket ingen tilgængelige eksperimentale-funktioner. </value>
+    <value>Der er i øjeblikket ingen tilgængelige eksperimentale funktioner. </value>
   </data>
   <data name="NoInstalledPackageFound" xml:space="preserve">
     <value>Ingen installeret pakke blev fundet, der matcher inputkriterierne.</value>
@@ -475,6 +476,9 @@ De kan konfigureres ved hjælp af indstillingsfilen ' winget settings '.</value>
   </data>
   <data name="ShowChannel" xml:space="preserve">
     <value>Kanal</value>
+  </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Viser oplysninger om en bestemt pakke. Som standard skal forespørgslen have en forskel på store og små bogstaver, der svarer til id'et, navnet eller moniker for pakken. Andre felter kan bruges ved at videregive deres relevante indstilling.</value>
   </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
     <value>Viser oplysninger om en pakke</value>
@@ -656,7 +660,7 @@ De kan konfigureres ved hjælp af indstillingsfilen ' winget settings '.</value>
     <value>Ingen relevante opdateringer blev fundet.</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>Opdaterer den valgte pakke, enten ved at søge på listen over installerede pakker eller direkte fra et manifest. Forespørgslen skal som standard skelne mellem store og små bogstaver i pakkens id, navn eller moniker. Andre felter kan bruges ved at videregive de ønskede indstillinger.</value>
+    <value>Opdaterer den valgte pakke, enten fundet ved at søge på listen over installerede pakker eller direkte fra et manifest. Forespørgslen skal som standard skelne mellem store og små bogstaver i pakkens id, navn eller moniker. Andre felter kan bruges ved at videregive de ønskede indstillinger.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
@@ -718,5 +722,203 @@ De kan konfigureres ved hjælp af indstillingsfilen ' winget settings '.</value>
   <data name="Logs" xml:space="preserve">
     <value>Logfiler</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Installationsprogrammet er blokeret af politik</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Sikkerhedskontrollen for installationsprogrammet mislykkedes</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Et antivirusprogram rapporterer en infektion i installationsprogrammet</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Der opstod fejl under forsøg på at opdatere kilden:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Fjerner den valgte pakke, enten ved at søge på listen over installerede pakker eller direkte fra et manifest. Forespørgslen skal som standard skelne mellem store og små bogstaver i pakkens id, navn eller moniker. Andre felter kan bruges ved at videregive de ønskede indstillinger.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Fjerner den pågældende pakke</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Starter fjernelse af pakke...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Pakken er fjernet</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget kan ikke finde fjernelses kommandoen til denne pakke. Kontakt pakke udgiveren for at få support.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Fjernelse blev afbrudt</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Fjernelsen mislykkedes med returkoden:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Eksporterer en liste med installerede pakker</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Installerer alle pakker, der er angivet i en fil.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Installerer alle pakkerne i en fil</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Fil, som resultatet skal skrives til</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Fil, der beskriver de pakker, der skal installeres</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Eksportér pakker fra den angivne kilde</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Skriver en liste over de installerede pakker til en fil. Pakkerne kan derefter installeres sammen med kommandoen import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>En eller flere importerede pakker blev ikke installeret</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Pakken blev ikke fundet til import:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Kilde, der kræves til import, er ikke installeret:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Den installerede version af pakken er ikke tilgængelig fra nogen kilde:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Den installerede version af pakken er ikke tilgængelig fra nogen kilde:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Der blev ikke fundet nogen pakker i importfilen</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON-filen er ugyldig</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Pakken er allerede installeret:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ignorer utilgængelige pakker</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Medtag pakkeversioner i den producerede fil</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ignorer pakkeversioner fra importfilen</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Stien findes ikke:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON-filen angiver ikke et genkendt skema.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Vælg installationsområde (bruger eller computer)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Den værdi, der er angivet for argumentet '%1', er ugyldig; gyldige værdier er</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Denne handling er deaktiveret af gruppepolitikken</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Aktivér yderligere kilder til Windows Appinstallation</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Aktivér tilladte kilder til Windows Appinstallation</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Aktivér standardkilde til Windows Appinstallation</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Aktivér eksperimentelle funktioner i Windows Appinstallation</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Aktivér Microsoft Store-kilden til Windows Appinstallation</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Aktivér indstillinger for Windows Pakkestyring</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Aktivér Windows Pakkestyring</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Angiv interval i minutter for automatisk opdatering af Windows Pakkestyring</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Deaktiveret</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Aktiveret</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Gruppepolitik</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Tilstand</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Aktivér lokale manifest-filer til Windows Appinstallation</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Felt:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Ugyldigt feltformat.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Ugyldig feltværdi.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Ugyldig indstilling fra Gruppepolitikken.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Indstillingerne blev indlæst fra sikkerhedskopifilen.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Der opstod en fejl under parsing af filen:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Værdi:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Følgende eksperimentelle funktioner er i gang.
+Konfiguration er deaktiveret på grund af en gruppepolitik.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Installationsprogrammets hash-kode stemmer ikke overens.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Aktivér tilsidesættelse af hash-kode i Windows Appinstallation</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Eksportér aktuelle kilder som JSON for gruppepolitik.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Eksportér aktuelle kilder</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Ekstra kilde</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Tilladt kilde</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Den værdi, der er angivet for argumentet '%1', er ugyldig</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

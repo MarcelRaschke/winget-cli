@@ -298,8 +298,9 @@ Dit kan deur die instellinglêer ‘winget settings’ gekonfigureer word.</valu
   <data name="InvalidNameError" xml:space="preserve">
     <value>Argumentnaam is nie vir die huidige bevel erken nie</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Taal om te installeer (indien dit ondersteun word)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Lokaliteit om te gebruik (BCP47-formaat)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Lisensie-ooreenkoms</value>
@@ -386,10 +387,10 @@ Dit kan deur die instellinglêer ‘winget settings’ gekonfigureer word.</valu
     <value>Filtreer resultate volgens naam</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Geen installeerders is van toepassing op die huidige stelsel nie.</value>
+    <value>Geen toepaslike installeerder gevind nie; sien logboeke vir meer besonderhede.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
-    <value>Daar is tans geen eksperimentele kenmerke beskikbaar nie. </value>
+    <value>Daar is huidiglik geen eksperimentele kenmerke beskikbaar nie. </value>
   </data>
   <data name="NoInstalledPackageFound" xml:space="preserve">
     <value>Geen geïnstalleerde pakket gevind wat by toevoerkriteria pas nie.</value>
@@ -476,8 +477,11 @@ Dit kan deur die instellinglêer ‘winget settings’ gekonfigureer word.</valu
   <data name="ShowChannel" xml:space="preserve">
     <value>Kanaal</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Wys inligting oor ’n spesifieke pakket. By verstek moet die navraag nie-kassensitief by die ID, naam of bynaam van die pakket pas. Ander velde kan gebruik word deur hulle geskikte opsie te slaag.</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>Wys inligting oor ’n pakket</value>
+    <value>Toon inligting oor 'n pakket</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>Weergawe</value>
@@ -650,17 +654,17 @@ Dit kan deur die instellinglêer ‘winget settings’ gekonfigureer word.</valu
     <value>Onerkende bevel</value>
   </data>
   <data name="UpdateAllArgumentDescription" xml:space="preserve">
-    <value>Werk alle geïnstalleerde pakkette by na nuutste as beskikbaar</value>
+    <value>Dateer alle geïnstalleerde pakkette op na die nuutste indien beskikbaar</value>
   </data>
   <data name="UpdateNotApplicable" xml:space="preserve">
     <value>Geen toepaslike bywerking gevind nie.</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>Werk die geselekteerde pakket by; hetsy gevind deur in die lys van geïnstalleerde pakkette te soek of direk vanaf ’n manifes. By verstek moet die navraag niekassensitief by die ID, naam of bynaam van die pakket pas. Ander velde kan gebruik word deur hulle toepaslike opsie te slaag.</value>
+    <value>Gradeer die geselekteerde pakket op, gevind deur te soek in die geïnstalleerde pakketlys, of direk vanaf 'n manifes. Die navraag moet by verstek van hooflettergevoelig ooreenstem met die ID, naam of moniker van die pakket. Ander velde kan gebruik word deur hul toepaslike opsie in te dien.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>Werk die gegewe pakket by</value>
+    <value>Gradeer die gegewe pakket op</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>gebruik</value>
@@ -718,5 +722,203 @@ Dit kan deur die instellinglêer ‘winget settings’ gekonfigureer word.</valu
   <data name="Logs" xml:space="preserve">
     <value>Logs</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Die installeerder word deur die beleid geblokkeer</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Die installeerder se sekuriteitskontrole het misluk</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>'n Anti-virus produk rapporteer 'n infeksie in die installeerder</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Poging om die bron op te dateer het misluk:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Verwyder die geselekteerde pakket, of gevind deur die geïnstalleerde pakket lys te soek, of direk vanaf 'n manifes. By verstek, moet die navraag onbeduidend pas by die id, naam of moniker van die pakket. Ander velde kan gebruik word deur hulle toepaslike opsie te slaag.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Verwyder die gegewe pakket</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Begin pakket verwydering...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Suksesvol verwyder</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget kan nie die verwyderingsopdrag vir hierdie pakket vind nie. Kontak die pakketuitgewer vir ondersteuning.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Verwydering is laat vaar</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Verwydering het misluk met verlaat kode:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Voer 'n lys van geïnstalleerde pakkette uit</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Installeer al die pakkette wat in 'n lêer gelys is.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Installeer al die pakkette in 'n lêer.</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Lêer waar die resultaat geskryf moet word</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Lêer wat die pakkette beskryf om te installeer</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Voer pakkette van die gespesifiseerde bron uit</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Skryf 'n lys van die geïnstalleerde pakkette na 'n lêer. Die pakkette kan dan geïnstalleer word met die import bevel.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Een of meer ingevoerde pakkette kon nie geïnstalleer word nie</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Pakket nie gevind vir invoer nie:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Bron word vereis vir invoer is nie geïnstalleer nie:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Geïnstalleerde pakket is nie beskikbaar nie van enige bron af nie:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Geïnstalleerde weergawe van die pakket is nie beskikbaar nie van enige bron af nie:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Geen pakkette in invoer lêer gevind nie</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON-lêer is ongeldig</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Pakket is reeds geïnstalleer:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ignoreer onbeskikbare pakkette</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Sluit pakketweergawes in geproduseerde lêer in</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ignoreer pakket weergawes van invoer lêer</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Pad bestaan nie:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>Die JSON-lêer spesifiseer nie 'n erkende skema nie.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Selekteer die installeringsomvang (gebruiker of masjien)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Die waarde vir die argument `%1` is ongeldig; geldige waardes is</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Hierdie operasie is deur Groepbeleid gedeaktiveer</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Aktiveer bykomende Windows-toepassinginstalleerder bronne</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerder toegelaat bronne</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerder verstekbron</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerder eksperimentele kenmerke</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerder Microsoft Store-bron</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Aktiveer Windows Pakketbestuurder-instellings</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Aktiveer Windows Pakketbestuurder</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Stel Windows Pakketbestuurder bron se outomatiese bywerking in minute</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Gedeaktiveer</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Geaktiveer</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Groepsbeleid</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Toestand</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerder plaaslike manifeslêers</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Veld:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Ongeldige veldformaat.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Ongeldige veldwaarde.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Ongeldige instelling van Groepsbeleid.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Gelaaide instellings vanaf rugsteunlêer.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Kon nie lêer ontleed nie:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Waarde:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Die volgende eksperimentele kenmerke is aan die gang.
+Konfigurasie is gedeaktiveer as gevolg van Groepsbeleid.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Installeerderhuts pas nie.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Aktiveer Windows-toepassinginstalleerderhuts oorheers</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Voer huidige bronne uit as JSON vir Groepsbeleid.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Voer huidige bronne uit</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Bykomende bron</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Toegelate bron</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Die waarde vir die argument `%1` is ongeldig</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

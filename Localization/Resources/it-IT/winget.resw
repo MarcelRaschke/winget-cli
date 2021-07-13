@@ -298,8 +298,9 @@ Possono essere configurati tramite il file di impostazioni ' winget settings '.<
   <data name="InvalidNameError" xml:space="preserve">
     <value>Nome di argomento non riconosciuto per il comando corrente</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Lingua da installare (se supportata)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Impostazioni locali da usare (formato BCP47)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Contratto di licenza</value>
@@ -386,10 +387,10 @@ Possono essere configurati tramite il file di impostazioni ' winget settings '.<
     <value>Filtra i risultati per nome</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Nessun programmi di installazione è applicabile al sistema corrente.</value>
+    <value>Nessun programma di installazione applicabile trovato. Per ulteriori dettagli, vedere i log.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
-    <value>Al momento non sono disponibili funzionalità sperimentali. </value>
+    <value>Al momento non sono disponibili funzionalità sperimentali.</value>
   </data>
   <data name="NoInstalledPackageFound" xml:space="preserve">
     <value>Non è stato trovato alcun pacchetto installato corrispondente ai criteri di input.</value>
@@ -476,8 +477,11 @@ Possono essere configurati tramite il file di impostazioni ' winget settings '.<
   <data name="ShowChannel" xml:space="preserve">
     <value>Canale</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Visualizza informazioni su un pacchetto specifico. Per impostazione predefinita, la query deve essere insensitively con l'ID, il nome o il moniker del pacchetto. Altri campi possono essere utilizzati passando l'opzione appropriata.</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>Mostra le informazioni relative a un pacchetto</value>
+    <value>Mostra informazioni su un pacchetto</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>Versione</value>
@@ -718,5 +722,203 @@ Possono essere configurati tramite il file di impostazioni ' winget settings '.<
   <data name="Logs" xml:space="preserve">
     <value>Log</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Programma di installazione bloccato dai criteri</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Non è stato possibile eseguire il controllo di sicurezza per il programma di installazione</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Un antivirus ha rilevato una infezione nel programma di installazione</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Errore durante il tentativo di aggiornare l'origine:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Disinstalla il pacchetto selezionato, trovato mediante la ricerca dell'elenco dei pacchetti installati o direttamente da un manifesto. Per impostazione predefinita, la query deve essere insensitively con l'ID, il nome o il moniker del pacchetto. Altri campi possono essere utilizzati passando l'opzione appropriata.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Disinstalla il pacchetto specificato</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Avvio disinstallazione pacchetto in corso...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Installazione completata</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget non riesce a individuare il comando di disinstallazione per questo pacchetto. Contattare l'autore del pacchetto per chiedere supporto.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Disinstallazione interrotta</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Disinstallazione non riuscita con codice di uscita:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Esporta un elenco dei pacchetti installati</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Installa tutti i pacchetti elencati in un file.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Installa tutti i pacchetti in un file</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>File in cui deve essere scritto il risultato</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>File che descrive i pacchetti da installare</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Esporta pacchetti dall'origine specificata</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Scrive un elenco dei pacchetti installati in un file. I pacchetti possono quindi essere installati con il comando import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Impossibile installare uno o più pacchetti importati</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Pacchetto non trovato per l'importazione:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>L'origine necessaria per l'importazione non è installata:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Il pacchetto installato non è disponibile in alcuna origine:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>La versione installata del pacchetto non è disponibile in alcuna origine:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Nessun pacchetto trovato nel file di importazione</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>Il file JSON non è valido</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Il pacchetto è già installato:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ignora pacchetti non disponibili</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Includi versioni del pacchetto nel file prodotto</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ignora versioni del pacchetto dal file di importazione</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Il percorso non esiste:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>Il file JSON non specifica uno schema riconosciuto.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Seleziona ambito di installazione (utente o computer)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Il valore specificato per l'argomento '%1' non è valido. i valori validi sono</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Questa operazione è disattivata da criteri di gruppo</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Abilita altre origini di programma di installazione app di Windows</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Abilita le origini consentite del programma di installazione app di Windows</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Abilita origine predefinita del programma di installazione app di Windows</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Abilita funzionalità sperimentali del programma di installazione app di Windows</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Abilita l'origine Microsoft Store del programma di installazione app di Windows</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Abilita le impostazioni di Gestione pacchetti Windows</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Abilita Gestione pacchetti Windows</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Imposta l’intervallo di aggiornamento automatico di origine Gestione pacchetti Windows in minuti</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Disabilitate</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Abilitata</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Criteri di gruppo</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Stato</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Abilita file manifesto locali del programma di installazione app di Windows</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Campo:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Formato del campo non valido.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Valore campo non valido.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Impostazione non valida dai criteri di gruppo.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Caricamento delle impostazioni dal file di backup completato.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Errore durante l'analisi del file:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Valore:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Le seguenti funzionalità sperimentali sono in corso.
+La configurazione è disabilitata a causa dei criteri di gruppo.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>L'hash del programma di installazione non corrisponde.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Abilita sostituzione hash del programma di installazione app di Windows</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Esporta origini correnti come JSON per criteri di gruppo.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Esporta le origini correnti</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Origine aggiuntiva</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Origine consentita</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Il valore specificato per l'argomento '%1' non è valido</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

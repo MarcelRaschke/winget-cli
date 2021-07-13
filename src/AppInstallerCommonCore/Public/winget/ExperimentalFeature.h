@@ -8,6 +8,7 @@
 namespace AppInstaller::Settings
 {
     using namespace std::string_view_literals;
+    struct UserSettings;
 
     struct ExperimentalFeature
     {
@@ -19,13 +20,14 @@ namespace AppInstaller::Settings
         enum class Feature : unsigned
         {
             None = 0x0,
-            ExperimentalCmd = 0x1,
-            ExperimentalArg = 0x2,
-            ExperimentalMSStore = 0x4,
-            ExperimentalList = 0x8,
-            ExperimentalUpgrade = 0x10,
-            ExperimentalUninstall = 0x20,
-            Max, // This MUST always be last
+            ExperimentalMSStore = 0x1,
+            PackagedAPI = 0x2,
+            Max, // This MUST always be after all experimental features
+
+            // Features listed after Max will not be shown with the features command
+            // This can be used to hide highly experimental features (or these example ones)
+            ExperimentalCmd = 0x10000,
+            ExperimentalArg = 0x20000,
         };
 
         using Feature_t = std::underlying_type_t<ExperimentalFeature::Feature>;
@@ -42,6 +44,11 @@ namespace AppInstaller::Settings
         ExperimentalFeature& operator=(ExperimentalFeature&&) = default;
 
         static bool IsEnabled(Feature feature);
+
+#ifndef AICLI_DISABLE_TEST_HOOKS
+        static bool IsEnabled(Feature feature, const UserSettings& userSettings);
+#endif
+
         static ExperimentalFeature GetFeature(ExperimentalFeature::Feature feature);
         static std::vector<ExperimentalFeature> GetAllFeatures();
 

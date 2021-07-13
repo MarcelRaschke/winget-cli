@@ -42,7 +42,7 @@ namespace AppInstaller::CLI::Workflow
                 }
                 if (waitResult != WAIT_TIMEOUT)
                 {
-                    THROW_LAST_ERROR_MSG("Unexpected WaitForSingleObjectResult: %d", waitResult);
+                    THROW_LAST_ERROR_MSG("Unexpected WaitForSingleObjectResult: %lu", waitResult);
                 }
             }
 
@@ -69,19 +69,19 @@ namespace AppInstaller::CLI::Workflow
 
             // Construct install experience arg.
             // SilentWithProgress is default, so look for it first.
-            auto experienceArgsItr = installerSwitches.find(ManifestInstaller::InstallerSwitchType::SilentWithProgress);
+            auto experienceArgsItr = installerSwitches.find(InstallerSwitchType::SilentWithProgress);
 
             if (context.Args.Contains(Execution::Args::Type::Interactive))
             {
                 // If interactive requested, always use Interactive (or nothing). If the installer supports
                 // interactive it is usually the default, and thus it is cumbersome to put a blank entry in
                 // the manifest.
-                experienceArgsItr = installerSwitches.find(ManifestInstaller::InstallerSwitchType::Interactive);
+                experienceArgsItr = installerSwitches.find(InstallerSwitchType::Interactive);
             }
             // If no SilentWithProgress exists, or Silent requested, try to find Silent.
             else if (experienceArgsItr == installerSwitches.end() || context.Args.Contains(Execution::Args::Type::Silent))
             {
-                auto silentItr = installerSwitches.find(ManifestInstaller::InstallerSwitchType::Silent);
+                auto silentItr = installerSwitches.find(InstallerSwitchType::Silent);
                 // If Silent requested, but doesn't exist, then continue using SilentWithProgress.
                 if (silentItr != installerSwitches.end())
                 {
@@ -94,36 +94,30 @@ namespace AppInstaller::CLI::Workflow
                 installerArgs += experienceArgsItr->second;
             }
 
-            // Construct language arg if necessary.
-            if (context.Args.Contains(Execution::Args::Type::Language) && installerSwitches.find(ManifestInstaller::InstallerSwitchType::Language) != installerSwitches.end())
-            {
-                installerArgs += ' ' + installerSwitches.at(ManifestInstaller::InstallerSwitchType::Language);
-            }
-
             // Construct log path arg.
-            if (installerSwitches.find(ManifestInstaller::InstallerSwitchType::Log) != installerSwitches.end())
+            if (installerSwitches.find(InstallerSwitchType::Log) != installerSwitches.end())
             {
-                installerArgs += ' ' + installerSwitches.at(ManifestInstaller::InstallerSwitchType::Log);
+                installerArgs += ' ' + installerSwitches.at(InstallerSwitchType::Log);
             }
 
             // Construct custom arg.
-            if (installerSwitches.find(ManifestInstaller::InstallerSwitchType::Custom) != installerSwitches.end())
+            if (installerSwitches.find(InstallerSwitchType::Custom) != installerSwitches.end())
             {
-                installerArgs += ' ' + installerSwitches.at(ManifestInstaller::InstallerSwitchType::Custom);
+                installerArgs += ' ' + installerSwitches.at(InstallerSwitchType::Custom);
             }
 
             // Construct update arg if applicable
-            if (isUpdate && installerSwitches.find(ManifestInstaller::InstallerSwitchType::Update) != installerSwitches.end())
+            if (isUpdate && installerSwitches.find(InstallerSwitchType::Update) != installerSwitches.end())
             {
-                installerArgs += ' ' + installerSwitches.at(ManifestInstaller::InstallerSwitchType::Update);
+                installerArgs += ' ' + installerSwitches.at(InstallerSwitchType::Update);
             }
 
             // Construct install location arg if necessary.
             if (!isUpdate &&
                 context.Args.Contains(Execution::Args::Type::InstallLocation) &&
-                installerSwitches.find(ManifestInstaller::InstallerSwitchType::InstallLocation) != installerSwitches.end())
+                installerSwitches.find(InstallerSwitchType::InstallLocation) != installerSwitches.end())
             {
-                installerArgs += ' ' + installerSwitches.at(ManifestInstaller::InstallerSwitchType::InstallLocation);
+                installerArgs += ' ' + installerSwitches.at(InstallerSwitchType::InstallLocation);
             }
 
             return installerArgs;
@@ -144,6 +138,7 @@ namespace AppInstaller::CLI::Workflow
 
                 auto path = Runtime::GetPathTo(Runtime::PathName::DefaultLogLocation);
                 path /= Logging::FileLogger::DefaultPrefix();
+                path += '-';
                 path += Utility::ConvertToUTF16(manifest.Id + '.' + manifest.Version);
                 path += '-';
                 path += Utility::GetCurrentTimeForFilename();
@@ -193,6 +188,7 @@ namespace AppInstaller::CLI::Workflow
         context.Reporter.Info() << Resource::String::InstallFlowStartingPackageInstall << std::endl;
 
         const std::string& installerArgs = context.Get<Execution::Data::InstallerArgs>();
+        const auto& additionalSuccessCodes = context.Get<Execution::Data::Installer>()->InstallerSuccessCodes;
 
         auto installResult = context.Reporter.ExecuteWithProgress(
             std::bind(InvokeShellExecute,
@@ -205,7 +201,7 @@ namespace AppInstaller::CLI::Workflow
             context.Reporter.Warn() << "Installation abandoned" << std::endl;
             AICLI_TERMINATE_CONTEXT(E_ABORT);
         }
-        else if (installResult.value() != 0)
+        else if (installResult.value() != 0 && (std::find(additionalSuccessCodes.begin(), additionalSuccessCodes.end(), installResult.value()) == additionalSuccessCodes.end()))
         {
             const auto& manifest = context.Get<Execution::Data::Manifest>();
             Logging::Telemetry().LogInstallerFailure(manifest.Id, manifest.Version, manifest.Channel, "ShellExecute", installResult.value());
@@ -249,20 +245,35 @@ namespace AppInstaller::CLI::Workflow
 
         switch(context.Get<Execution::Data::Installer>()->InstallerType)
         {
-        case ManifestInstaller::InstallerTypeEnum::Burn:
-        case ManifestInstaller::InstallerTypeEnum::Exe:
-        case ManifestInstaller::InstallerTypeEnum::Inno:
-        case ManifestInstaller::InstallerTypeEnum::Nullsoft:
+        case InstallerTypeEnum::Burn:
+        case InstallerTypeEnum::Exe:
+        case InstallerTypeEnum::Inno:
+        case InstallerTypeEnum::Nullsoft:
             renamedDownloadedInstaller += L".exe";
             break;
-        case ManifestInstaller::InstallerTypeEnum::Msi:
-        case ManifestInstaller::InstallerTypeEnum::Wix:
+        case InstallerTypeEnum::Msi:
+        case InstallerTypeEnum::Wix:
             renamedDownloadedInstaller += L".msi";
             break;
         }
 
-        // std::filesystem::rename() handles motw correctly if applicable.
-        std::filesystem::rename(installerPath, renamedDownloadedInstaller);
+        // If rename fails, don't give up quite yet.
+        bool retry = true;
+
+        try
+        {
+            // std::filesystem::rename() handles motw correctly if applicable.
+            std::filesystem::rename(installerPath, renamedDownloadedInstaller);
+            retry = false;
+        }
+        CATCH_LOG();
+
+        if (retry)
+        {
+            std::this_thread::sleep_for(250ms);
+            // If it fails again, let that one throw
+            std::filesystem::rename(installerPath, renamedDownloadedInstaller);
+        }
 
         installerPath.assign(renamedDownloadedInstaller);
         AICLI_LOG(CLI, Info, << "Successfully renamed downloaded installer. Path: " << installerPath);

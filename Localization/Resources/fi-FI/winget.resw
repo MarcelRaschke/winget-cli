@@ -298,8 +298,9 @@ Ne voidaan määrittää asetus tiedoston 'winget settings'.</value>
   <data name="InvalidNameError" xml:space="preserve">
     <value>Argumentin nimeä ei tunnistettu nykyiselle komennolle</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Asennettava kieli (jos tuettu)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Käytettävä alue (BCP47-muoto)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Käyttöoikeussopimus</value>
@@ -386,7 +387,7 @@ Ne voidaan määrittää asetus tiedoston 'winget settings'.</value>
     <value>Suodata tulokset nimen mukaan</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Asennus ei sovellu nykyiseen järjestelmään.</value>
+    <value>Soveltuvia asennus ohjelmaa ei löytynyt; lisä tietoja on lokeissa.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
     <value>Tällä hetkellä ei ole saatavilla kokeellisia ominaisuuksia. </value>
@@ -475,6 +476,9 @@ Ne voidaan määrittää asetus tiedoston 'winget settings'.</value>
   </data>
   <data name="ShowChannel" xml:space="preserve">
     <value>Kanava</value>
+  </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Näyttää tietoja tietystä paketista. Kyselyn on oletusarvoisesti vastattava pakkauksen tunnusta, nimeä tai monikeria. Isojen ja pienten kirjainten välillä ei tehdä erottelua. Muita kenttiä voidaan käyttää ohittamalla sopiva vaihtoehto.</value>
   </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
     <value>Näyttää tietoja paketista</value>
@@ -660,7 +664,7 @@ Ne voidaan määrittää asetus tiedoston 'winget settings'.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>Asentaa määritetyn paketin</value>
+    <value>Päivittää tietyn paketin</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>käyttö</value>
@@ -718,5 +722,203 @@ Ne voidaan määrittää asetus tiedoston 'winget settings'.</value>
   <data name="Logs" xml:space="preserve">
     <value>Lokit</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Käytäntö estää asennusohjelman</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Asennusohjelman turvallisuustarkistus epäonnistui</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Virustentorjuntaohjelma ilmoittaa tartunnasta asennusohjelmassa</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Lähteen päivittäminen epäonnistui:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Poistaa valitun paketin uudelleen. tästä löytyy etsimällä asennettujen pakettien luettelosta tai suoraan luettelo tiedostosta. Oletus arvon mukaan kyselyn on insensitively vastattava paketin tunnusta, nimeä tai Monikeri. Muita kenttiä voidaan käyttää muuttamalla niiden vaihto ehtoa.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Poistaa määritetyn paketin asennuksen</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Aloitetaan paketin asennuksen poistoa...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Asennuksen poisto onnistui</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget ei löydä tämän paketin asennuksen poistokomentoa. Ota yhteyttä paketin julkaisijaan, jos tarvitset tukea.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Asennuksen poistaminen hylättiin</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Asennuksen poistaminen epäonnistui, lopetuskoodi:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Vie asennettujen pakettien luettelon</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Asentaa kaikki tiedostossa olevat paketit.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Asentaa kaikki tiedoston paketit</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Tiedosto, johon tulos kirjoitetaan</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Asennettavia paketteja kuvaava tiedosto</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Vie paketit määritetystä lähteestä</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Kirjoittaa asennettujen pakettien luettelon tiedostoon. Paketit voidaan asentaa import komennolla.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Yhden tai useamman tuodun paketin asentaminen epäonnistui</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Tuotavaa pakettia ei löydy:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Tuontia varten tarvittavaa lähdettä ei ole asennettu:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Asennettua pakettia ei ole käytettävissä mistään lähteestä:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Asennettua paketin versiota ei ole käytettävissä mistään lähteestä:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Tuontitiedostosta ei löydy paketteja</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON-tiedosto ei kelpaa</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Paketti on jo asennettu:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ohita ei käytettävissä olevat paketit</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Sisällytä pakettiversiot tuotettuun tiedostoon</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ohita tuontitiedoston pakettiversiot</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Polkua ei ole:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON-tiedosto ei määritä tunnistettua rakennetta.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Valitse asennuksen vaikutusalue (käyttäjä tai kone)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>%1-argumentin annettu arvo on virheellinen; kelvollisia arvoja ovat</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Ryhmäkäytäntö on poistanut tämän toiminnon käytöstä</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman lisälähteitä</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman sallitut lähteet</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman oletuslähde</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman kokeiluominaisuudet</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman Microsoft Storen lähde</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Ota käyttöön Windows Package Managerin asetukset</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Ota käyttöön Windows Package Manager</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Aseta Windows Package Managerin lähteiden automaattisen päivityksen aikaväli minuutteina</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Poissa käytöstä</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Käytössä</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Ryhmäkäytäntö</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Tila</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman paikalliset sovellusvaatimustiedostot</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Kenttä:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Virheellinen kentän muoto.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Virheellinen kentän arvo.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Virheellinen asetus ryhmäkäytännöstä.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Asetukset ladattiin varmuuskopiotiedostosta.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Virhe jäsennettäessä tiedostoa:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Arvo:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Seuraavat kokeelliset ominaisuudet ovat käynnissä.
+Määritys on poistettu käytöstä ryhmä käytännön vuoksi.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Asennusohjelman hajautusarvo ei täsmää.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Ota käyttöön Windows-sovellusten asennusohjelman hajautusarvon ohitus</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Vie nykyiset lähteet JSON-muodossa ryhmäkäytännölle.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Vie nykyiset lähteet</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Lisälähde</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Sallittu lähde</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>%1-argumentin annettu arvo on virheellinen</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

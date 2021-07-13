@@ -298,8 +298,9 @@ Mereka dapat dikonfigurasi melalui ' winget settings ' file pengaturan.</value>
   <data name="InvalidNameError" xml:space="preserve">
     <value>Nama argumen tidak dikenali untuk perintah saat ini</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Bahasa untuk diinstal (jika didukung)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Lokal yang digunakan (format BCP47)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Perjanjian Lisensi</value>
@@ -386,7 +387,7 @@ Mereka dapat dikonfigurasi melalui ' winget settings ' file pengaturan.</value>
     <value>Filter hasil menurut nama</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Tidak ada installer yang berlaku untuk sistem saat ini.</value>
+    <value>Tidak ditemukan Penginstal yang berlaku; Lihat log untuk detail selengkapnya.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
     <value>Saat ini tidak ada fitur eksperimental yang tersedia. </value>
@@ -476,8 +477,11 @@ Mereka dapat dikonfigurasi melalui ' winget settings ' file pengaturan.</value>
   <data name="ShowChannel" xml:space="preserve">
     <value>Saluran</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Menampilkan informasi pada paket tertentu. Secara default, kueri harus huruf-insensitively cocok dengan id, nama, atau moniker paket. Bidang lain dapat digunakan dengan cara melewati opsi yang tepat.</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>Tampilkan info tentang paket</value>
+    <value>Menampilkan informasi tentang paket</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>Versi</value>
@@ -656,11 +660,11 @@ Mereka dapat dikonfigurasi melalui ' winget settings ' file pengaturan.</value>
     <value>Tidak ditemukan pembaruan yang dapat diterapkan.</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>Memperbarui paket yang dipilih, ditemukan dengan mencari daftar paket yang diinstal atau secara langsung dari manifes. Secara default, kueri harus huruf-insensitively cocok dengan id, nama, atau moniker paket. Bidang lain dapat digunakan dengan cara melewati opsi yang tepat.</value>
+    <value>Memutakhirkan paket yang dipilih, ditemukan dengan mencari daftar paket yang diinstal atau secara langsung dari manifes. Secara default, kueri harus huruf-insensitively cocok dengan id, nama, atau moniker paket. Bidang lain dapat digunakan dengan cara melewati opsi yang tepat.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>Memperbarui paket yang diberikan</value>
+    <value>Memutakhirkan paket yang diberikan</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>penggunaan</value>
@@ -718,5 +722,203 @@ Mereka dapat dikonfigurasi melalui ' winget settings ' file pengaturan.</value>
   <data name="Logs" xml:space="preserve">
     <value>Log</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Penginstal diblokir oleh kebijakan</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Penginstal gagal dalam pemeriksaan keamanan</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Produk anti-virus melaporkan infeksi pada penginstal</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Gagal mencoba memperbarui sumber:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Menghapus paket yang dipilih, ditemukan dengan mencari daftar paket yang diinstal atau secara langsung dari manifes. Secara default, kueri harus huruf-insensitively cocok dengan id, nama, atau moniker paket. Bidang lain dapat digunakan dengan cara melewati opsi yang tepat.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Menghapus instalan paket tertentu</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Memulai penghapusan instalan paket...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Berhasil menghapus instalan</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget tidak dapat menemukan perintah penghapusan instalasi untuk paket ini. Silakan hubungi penerbit paket untuk dukungan.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Penghapusan instalan diabaikan</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Penghapusan instalan gagal dengan kode keluar:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Mengekspor daftar paket yang diinstal</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Menginstal semua paket yang tercantum dalam file.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Menginstal semua paket dalam file</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>File tempat hasil akan ditulis</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>File yang menjelaskan paket yang akan diinstal</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Ekspor paket dari sumber yang ditentukan</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Menulis daftar paket yang diinstal ke file. Paket kemudian dapat diinstal dengan perintah import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Satu atau beberapa paket yang diimpor gagal diinstal</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Paket tidak ditemukan untuk diimpor:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Sumber yang diperlukan untuk impor tidak diinstal:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Paket yang diinstal tidak tersedia dari sumber mana pun:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Versi paket yang diinstal tidak tersedia dari sumber mana pun:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Tidak ada paket yang ditemukan dalam file impor</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>File JSON tidak valid</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Paket sudah diinstal:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Abaikan paket yang tidak tersedia</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Sertakan versi paket dalam file yang dihasilkan</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Abaikan versi paket dari file impor</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Jalur tidak ada:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>File JSON tidak menentukan skema yang dikenali.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Pilih lingkup penginstalan (pengguna atau komputer)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Nilai yang diberikan untuk argumen '%1' tidak valid; Nilai valid</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Operasi ini dinonaktifkan oleh Kebijakan Grup</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Aktifkan Sumber Penginstal Aplikasi Windows Tambahan</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Aktifkan Sumber yang Diperbolehkan Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Aktifkan Sumber Default Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Aktifkan Fitur Eksperimental Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Aktifkan Sumber Microsoft Store Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Aktifkan Pengaturan Pengelola Paket Windows</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Aktifkan Pengelola Paket Windows</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Atur Interval Pembaruan Otomatis Sumber Pengelola Paket Windows Dalam Menit</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Dinonaktifkan</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Diaktifkan</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Kebijakan Grup</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Status</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Aktifkan File Manifes Lokal Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Bidang:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Format bidang tidak valid.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Nilai bidang tidak valid.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Pengaturan yang tidak valid dari Kebijakan Grup.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Memuat pengaturan dari file cadangan.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Kesalahan penguraian file:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Nilai:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Fitur eksperimental berikut sedang berlangsung.
+Konfigurasi dinonaktifkan karena kebijakan grup.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Hash penginstal tidak cocok.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Aktifkan Penimpaan Hash Penginstal Aplikasi Windows</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Ekspor sumber saat ini sebagai JSON untuk kebijakan grup.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Ekspor sumber saat ini</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Sumber tambahan</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Sumber yang diperbolehkan</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Nilai yang diberikan untuk argumen '%1' tidak valid</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

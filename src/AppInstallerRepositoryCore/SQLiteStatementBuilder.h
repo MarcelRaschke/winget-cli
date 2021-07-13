@@ -107,6 +107,7 @@ namespace AppInstaller::Repository::SQLite::Builder
         Int64,
         RowId = Int64,
         Text,
+        Blob,
     };
 
     // Aggregate functions.
@@ -239,6 +240,8 @@ namespace AppInstaller::Repository::SQLite::Builder
         StatementBuilder& LikeWithEscape(std::string_view value);
         StatementBuilder& Like(details::unbound_t);
 
+        StatementBuilder& LiteralColumn(std::string_view value);
+
         StatementBuilder& Escape(std::string_view escapeChar);
 
         StatementBuilder& Not();
@@ -326,6 +329,15 @@ namespace AppInstaller::Repository::SQLite::Builder
         StatementBuilder& CreateTable(QualifiedTable table);
         StatementBuilder& CreateTable(std::initializer_list<std::string_view> table);
 
+        // Begin an alter table statement.
+        // The initializer_list form enables the table name to be constructed from multiple parts.
+        StatementBuilder& AlterTable(std::string_view table);
+        StatementBuilder& AlterTable(QualifiedTable table);
+        StatementBuilder& AlterTable(std::initializer_list<std::string_view> table);
+
+        // Complete an alter table statement by adding a column.
+        StatementBuilder& Add(std::string_view column, Type type);
+
         // Begin an table deletion statement.
         // The initializer_list form enables the table name to be constructed from multiple parts.
         StatementBuilder& DropTable(std::string_view table);
@@ -394,7 +406,8 @@ namespace AppInstaller::Repository::SQLite::Builder
         {
             Equals,
             Like,
-            Escape
+            Escape,
+            Literal,
         };
 
         // Appends given the operation.

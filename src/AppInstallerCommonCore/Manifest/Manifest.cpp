@@ -2,87 +2,84 @@
 // Licensed under the MIT License.
 #include "pch.h"
 #include "winget/Manifest.h"
-#include "winget/ManifestValidation.h"
+#include "winget/Locale.h"
+#include "winget/UserSettings.h"
 
 namespace AppInstaller::Manifest
 {
-    ManifestVer::ManifestVer(std::string_view version)
+    void Manifest::ApplyLocale(const std::string& locale)
     {
-        bool validationSuccess = true;
+        CurrentLocalization = DefaultLocalization;
 
-        // Separate the extensions out
-        size_t hyphenPos = version.find_first_of('-');
-        if (hyphenPos != std::string_view::npos)
+        // Get target locale from Preferred Languages settings if applicable
+        std::vector<std::string> targetLocales;
+        if (locale.empty())
         {
-            // The first part is the main version
-            Assign(std::string{ version.substr(0, hyphenPos) }, ".");
-
-            // The second part is the extensions
-            hyphenPos += 1;
-            while (hyphenPos < version.length())
-            {
-                size_t newPos = version.find_first_of('-', hyphenPos);
-
-                size_t length = (newPos == std::string::npos ? version.length() : newPos) - hyphenPos;
-                m_extensions.emplace_back(std::string{ version.substr(hyphenPos, length) }, ".");
-
-                hyphenPos += length + 1;
-            }
+            targetLocales = Locale::GetUserPreferredLanguages();
         }
         else
         {
-            Assign(std::string{ version }, ".");
+            targetLocales.emplace_back(locale);
         }
 
-        if (m_parts.size() > 3)
+        for (auto const& targetLocale : targetLocales)
         {
-            validationSuccess = false;
-        }
-        else
-        {
-            for (size_t i = 0; i < m_parts.size(); i++)
+            const ManifestLocalization* bestLocalization = nullptr;
+            double bestScore = Locale::GetDistanceOfLanguage(targetLocale, DefaultLocalization.Locale);
+
+            for (auto const& localization : Localizations)
             {
-                if (!m_parts[i].Other.empty())
+                double score = Locale::GetDistanceOfLanguage(targetLocale, localization.Locale);
+                if (score > bestScore)
                 {
-                    validationSuccess = false;
-                    break;
+                    bestLocalization = &localization;
+                    bestScore = score;
                 }
             }
 
-            for (const Version& ext : m_extensions)
+            // If there's better locale than default And is compatible with target locale, merge and return;
+            if (bestLocalization != nullptr && bestScore >= Locale::MinimumDistanceScoreAsCompatibleMatch)
             {
-                if (ext.GetParts().empty() || ext.GetParts()[0].Integer != 0)
+                CurrentLocalization.ReplaceOrMergeWith(*bestLocalization);
+                break;
+            }
+        }
+    }
+
+    std::vector<string_t> Manifest::GetAggregatedTags() const
+    {
+        std::vector<string_t> resultTags = DefaultLocalization.Get<Localization::Tags>();
+
+        for (const auto& locale : Localizations)
+        {
+            auto tags = locale.Get<Localization::Tags>();
+            for (const auto& tag : tags)
+            {
+                if (std::find(resultTags.begin(), resultTags.end(), tag) == resultTags.end())
                 {
-                    validationSuccess = false;
-                    break;
+                    resultTags.emplace_back(tag);
                 }
             }
         }
 
-        if (!validationSuccess)
-        {
-            std::vector<ValidationError> errors;
-            errors.emplace_back(ManifestError::InvalidFieldValue, "ManifestVersion", std::string{ version });
-            THROW_EXCEPTION(ManifestException(std::move(errors)));
-        }
+        return resultTags;
     }
 
-    bool ManifestVer::HasExtension() const
+    std::vector<string_t> Manifest::GetAggregatedCommands() const
     {
-        return !m_extensions.empty();
-    }
+        std::vector<string_t> resultCommands;
 
-    bool ManifestVer::HasExtension(std::string_view extension) const
-    {
-        for (const Version& ext : m_extensions)
+        for (const auto& installer : Installers)
         {
-            const auto& parts = ext.GetParts();
-            if (!parts.empty() && parts[0].Integer == 0 && parts[0].Other == extension)
+            for (const auto& command : installer.Commands)
             {
-                return true;
+                if (std::find(resultCommands.begin(), resultCommands.end(), command) == resultCommands.end())
+                {
+                    resultCommands.emplace_back(command);
+                }
             }
         }
 
-        return false;
+        return resultCommands;
     }
 }

@@ -298,8 +298,9 @@
   <data name="InvalidNameError" xml:space="preserve">
     <value>Не го препознаваме името на аргументот за тековнава наредба</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Јазик за инсталација (ако е поддржан)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Локални стандарди за користење (формат BCP47)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Договор за лиценца</value>
@@ -386,10 +387,10 @@
     <value>Филтрирајте ги резултатите по име</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Нема програми за инсталирање што се применливи на тековниот систем.</value>
+    <value>Нема соодветна програма за инсталирање; погледнете ја евиденцијата за повеќе детали.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
-    <value>Во моментов не се достапни пробни функции.</value>
+    <value>Во моментов нема достапни пробни функции. </value>
   </data>
   <data name="NoInstalledPackageFound" xml:space="preserve">
     <value>Не е најден инсталиран пакет што се совпаѓа со внесените критериуми.</value>
@@ -476,8 +477,11 @@
   <data name="ShowChannel" xml:space="preserve">
     <value>Канал</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Прикажува информации за одреден пакет. Стандардно, прашалникот не мора да разликува големи и мали букви и мора да се совпаѓа со идентификаторот, името или моникерот на пакетот. Другите полиња може да се користат со пренесување на нивната соодветна опција.</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>Прикажува информации за пакетот</value>
+    <value>Прикажува информации за пакет</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>Верзија</value>
@@ -650,7 +654,7 @@
     <value>Непрепознаена наредба</value>
   </data>
   <data name="UpdateAllArgumentDescription" xml:space="preserve">
-    <value>Ажурирајте ги сите инсталирани пакети со најновите верзии ако се достапни</value>
+    <value>Ажурирајте ги сите инсталирани пакети со најновите верзии доколку се достапни</value>
   </data>
   <data name="UpdateNotApplicable" xml:space="preserve">
     <value>Не е најдено применливо ажурирање.</value>
@@ -718,5 +722,203 @@
   <data name="Logs" xml:space="preserve">
     <value>Дневници</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Инсталаторот е блокиран од правилата</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Инсталаторот не успеа да ја помине безбедносната проверка</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Антивирусниот производ известува за инфекција во инсталаторот</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Не успеа обидот за ажурирање на изворот:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Го деинсталира избраниот пакет, кој е најден или со пребарување на списокот со инсталирани пакети или директно од манифестот. Стандардно, прашалникот не мора да разликува големи и мали букви, но мора да се совпаѓа со идентитетот, името или прекарот на пакетот. Другите полиња може да се користат со пренесување на нивната соодветна опција.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Го деинсталира дадениот пакет</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Се започнува деинсталацијата на пакетот...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Успешно се деинсталира</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget не може да ја лоцира наредбата за деинсталација за овој пакет. Стапете во контакт со издавачот на пакетот за поддршка.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Деинсталацијата е напуштена</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Деинсталирањето не успеа со излезниот код:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Извезува список на инсталирани пакети</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Ги инсталира сите пакети наведени во датотеката.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Ги инсталира сите пакети во датотеката</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Датотека каде што ќе се запише резултатот</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Датотека што ги опишува пакетите за инсталирање</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Извези ги пакетите од одредениот извор</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Пишува список на инсталираните пакети во датотека. Потоа пакетите може да се инсталираат со наредбата import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Еден или повеќе увезени пакети не успеаја да се инсталираат</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Пакетот не е најден за увоз:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Не е инсталиран изворот потребен за увоз:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Инсталираниот пакет не е достапен од кој било извор:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Инсталираната верзија на пакетот не е достапна од кој било извор:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Не се најдени пакети во увезената датотека</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON-датотеката не е важечка</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Пакетот е веќе инсталиран:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Игнорирај ги недостапните пакети</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Вклучи ги верзиите на пакетот во произведената датотека</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Игнорирај ги верзиите на пакетот од увезената датотека</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Патеката не постои:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON-датотеката нема препознаена шема.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Изберете опсег на инсталирање (корисник или машина)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Вредноста наведена за аргументот „%1“ е неважечка; важечките вредности се</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Операцијава е исклучена поради групните правила</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Вклучете дополнителни извори за инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Вклучете ги дозволените извори на инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Вклучете го стандардниот извор на инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Вклучете ги експерименталните карактеристики за инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Вклучете извор од Microsoft Store за инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Вклучете ги параметрите за Управникот за пакети на Windows</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Вклучете го Управникот за пакети на Windows</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Поставете интервал за автоматско ажурирање на изворот на Управникот за пакети на Windows во минути</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Исклучени</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Вклучени</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Групни правила</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Состојба</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Вклучете локални датотеки за манифести за инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Поле:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Неважечки формат на поле.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Неважечка вредност на поле.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Неважечки параметар за групните правила.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Параметрите се вчитаа од резервната датотека.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Грешка при разложувањето на датотеката:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Вредност:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Следниве експериментални карактеристики се во тек.
+Конфигурацијата е исклучена поради групните правила.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Хашот на програмата за инсталирање не одговара.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Вклучете пребришување на хашот за инсталаторот на апликации на Windows</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Извезете ги тековните извори како JSON за групните правила.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Извезете ги тековните извори</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Дополнителен извор</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Дозволен извор</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Вредноста наведена за аргументот „%1“ е неважечка</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

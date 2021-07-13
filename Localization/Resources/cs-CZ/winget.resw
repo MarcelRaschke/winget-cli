@@ -298,8 +298,9 @@ Lze je nakonfigurovat pomocí souboru nastavení „winget settings“.</value>
   <data name="InvalidNameError" xml:space="preserve">
     <value>Nebyl rozpoznán název argumentu pro aktuální příkaz.</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Jazyk instalace (pokud se podporuje)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Národní prostředí, které se má použít (formát BCP47)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Licenční smlouva</value>
@@ -386,7 +387,7 @@ Lze je nakonfigurovat pomocí souboru nastavení „winget settings“.</value>
     <value>Filtrovat výsledky podle názvu</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>U aktuálního systému se nedají použít žádné instalační programy.</value>
+    <value>Nebyl nalezen žádný odpovídající instalační program. Další podrobnosti najdete v protokolech.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
     <value>Nyní nejsou k dispozici žádné experimentální funkce. </value>
@@ -476,8 +477,11 @@ Lze je nakonfigurovat pomocí souboru nastavení „winget settings“.</value>
   <data name="ShowChannel" xml:space="preserve">
     <value>Kanál</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Zobrazí informace o konkrétním balíčku. Ve výchozím nastavení se musí dotaz bez rozlišování malých a velkých písmen shodovat s ID, názvem nebo monikerem balíčku. Další pole lze použít předáním příslušné možnosti.</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>Zobrazuje podrobnosti o balíčku</value>
+    <value>Zobrazí informace o balíčku.</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>Verze</value>
@@ -650,17 +654,17 @@ Lze je nakonfigurovat pomocí souboru nastavení „winget settings“.</value>
     <value>Nerozpoznaný příkaz</value>
   </data>
   <data name="UpdateAllArgumentDescription" xml:space="preserve">
-    <value>Aktualizovat všechny nainstalované balíčky na nejnovější, pokud k dispozici</value>
+    <value>Aktualizovat všechny nainstalované balíčky na nejnovější, pokud jsou k dispozici</value>
   </data>
   <data name="UpdateNotApplicable" xml:space="preserve">
     <value>Žádná vhodná aktualizace nebyla nalezena.</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>Aktualizuje vybraný balíček, který byl nalezen prohledáním seznamu nainstalovaných balíčků nebo přímo z manifestu. Ve výchozím nastavení se musí dotaz bez rozlišování malých a velkých písmen shodovat s ID, názvem nebo monikerem balíčku. Další pole lze použít předáním příslušné možnosti.</value>
+    <value>Upgraduje vybraný balíček nalezený v seznamu nainstalovaných balíčků nebo přímo z manifestu. Ve výchozím nastavení se musí dotaz bez rozlišování malých a velkých písmen shodovat s ID, názvem nebo monikerem balíčku. Další pole lze použít předáním příslušné možnosti.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>Aktualizuje daný balíček</value>
+    <value>Upgraduje daný balíček.</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>použití</value>
@@ -718,5 +722,203 @@ Lze je nakonfigurovat pomocí souboru nastavení „winget settings“.</value>
   <data name="Logs" xml:space="preserve">
     <value>Protokoly</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Instalační program je blokován zásadami</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Instalační program nedokázal provést kontrolu zabezpečení.</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>Antivirový produkt hlásí napadený instalační program</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Pokus o aktualizaci zdroje selhal:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Odinstaluje vybraný balíček, který najdete buď vyhledáním v seznamu nainstalovaných balíčků, nebo přímo z manifestu aplikace. Ve výchozím nastavení se dotaz musí shodovat s ID balíčku, jeho názvem a cestou odkazu (nerozlišují se malá a velká písmena). Zadáním vhodných možností se dají použít i další pole.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Odinstaluje daný balíček</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Spouští se odinstalace balíčku...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Odinstalace byla úspěšně dokončena</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget nemůže najít příkaz k odinstalaci pro tento balíček. Pokud potřebujete pomoc, obraťte se na vydavatele balíčku.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Odinstalace se neprovedla</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Odinstalace selhala s ukončovacím kódem:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Exportuje seznam nainstalovaných balíčků</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Nainstaluje všechny balíčky uvedené v souboru.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Nainstaluje všechny balíčky do souboru</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Soubor, do kterého se má výsledek zapsat</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Soubor popisující balíčky k instalaci</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Exportuje balíčky ze zadaného zdroje</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Zapíše seznam nainstalovaných balíčků do souboru. Balíčky pak lze nainstalovat příkazem import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Nepodařilo se nainstalovat minimálně jeden importovaný balíček.</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Balíček pro import nebyl nalezen:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Není nainstalován zdroj vyžadovaný pro import:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Nainstalovaný balíček není k dispozici z žádného zdroje:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Nainstalovaná verze balíčku není k dispozici z žádného zdroje:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>V souboru importu nebyly nalezeny žádné balíčky</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>Soubor JSON je neplatný</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Balíček je již nainstalován:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ignorovat nedostupné balíčky</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Zahrnout verze balíčků do vytvořeného souboru</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ignorovat verze balíčků z importovaného souboru</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Cesta neexistuje:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>Soubor JSON neobsahuje rozpoznatelné schéma.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Vyberte typ instalace (podle uživatele nebo počítače)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Hodnota zadaná pro Argument '%1' je neplatná. platné hodnoty jsou</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Tato operace je zakázaná zásadou skupiny</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Povolit dodatečné zdroje instalačního programu aplikací systému Windows</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Povolit povolené zdroje instalačního programu aplikací systému Windows</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Povolit výchozí zdroj instalačního programu aplikací systému Windows</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Povolit experimentální funkce instalačního programu aplikací systému Windows</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Povolit Microsoft Store jako zdroj pro instalační program aplikací systému Windows</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Povolit nastavení Správce balíčků systému Windows</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Povolit Správce balíčků systému Windows</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Nastavit interval automatické aktualizace zdrojů pro Správce balíčků systému Windows v minutách</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Zakázáno</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Povoleno</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Zásady skupiny</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Stav</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Povolit místní soubory manifestu pro instalační program aplikací systému Windows</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Pole:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Neplatný formát pole.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Neplatná hodnota pole.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Neplatné nastavení ze zásady skupiny.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Ze záložního souboru se načetlo nastavení.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Chyba při analýze souboru:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Hodnota:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Probíhá následující experimentální funkce.
+Konfigurace je zakázána kvůli zásadám skupiny.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Hodnota hash instalačního programu se neshoduje.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Povolit přepsání hodnoty hash pro instalační program aplikací systému Windows</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Vyexportuje aktuální zdroje jako JSON pro zásady skupiny.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Exportovat aktuální zdroje</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Další zdroje</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Povolené zdroje</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Hodnota zadaná pro argument%1je neplatná.</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

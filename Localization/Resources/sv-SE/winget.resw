@@ -142,7 +142,7 @@
     <comment>Nested commands that can be run in context of the selected command</comment>
   </data>
   <data name="ChannelArgumentDescription" xml:space="preserve">
-    <value>Använd den angivna kanalen. standard är allmän målgrupp</value>
+    <value>Använd den angivna kanalen. Standard är allmän målgrupp</value>
   </data>
   <data name="Command" xml:space="preserve">
     <value>kommando</value>
@@ -210,7 +210,7 @@
   </data>
   <data name="FeaturesMessage" xml:space="preserve">
     <value>Följande experimentella funktioner är under utveckling.
-De kan konfigureras via inställnings filen "winget settings".</value>
+De kan konfigureras via inställningsfilen "winget settings".</value>
     <comment>{Locked="winget settings"}</comment>
   </data>
   <data name="FeaturesProperty" xml:space="preserve">
@@ -247,7 +247,7 @@ De kan konfigureras via inställnings filen "winget settings".</value>
     <value>Detta program är licensierat till dig av ägaren.</value>
   </data>
   <data name="InstallationDisclaimer2" xml:space="preserve">
-    <value>Microsoft är inte ansvariga för och tillhandahåller inte heller några licenser förnågra paket från tredje part.</value>
+    <value>Microsoft är inte ansvariga för och tillhandahåller inte heller några licenser för några paket från tredje part.</value>
   </data>
   <data name="InstallationDisclaimerMSStore" xml:space="preserve">
     <value>Det här paketet tillhandahålls via Microsoft Store. winget kan behöva hämta paketet från Microsoft Store för den aktuella användarens räkning.</value>
@@ -257,7 +257,7 @@ De kan konfigureras via inställnings filen "winget settings".</value>
     <value>Det går inte att installera paketet eftersom en högre version av Windows krävs:</value>
   </data>
   <data name="InstallCommandLongDescription" xml:space="preserve">
-    <value>Installerar det markerade paketet, antingen genom att söka i en konfigurerad källa eller direkt från ett manifest. Som standard måste frågan matcha ID, namn eller länksökväg för paketet (inte skiftlägeskänsligt). Du kan använda andra fält genom att ange lämpliga alternativ.</value>
+    <value>Installerar det markerade paketet, antingen genom att söka i en konfigurerad källa eller direkt från ett manifest. Som standard måste sökningen matcha ID, namn eller länksökväg för paketet (inte skiftlägeskänsligt). Du kan använda andra fält genom att ange lämpliga alternativ.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="InstallCommandShortDescription" xml:space="preserve">
@@ -298,8 +298,9 @@ De kan konfigureras via inställnings filen "winget settings".</value>
   <data name="InvalidNameError" xml:space="preserve">
     <value>Argumentnamnet kändes inte igen för det aktuella kommandot</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>Språk att installera (om det stöds)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>Språk att använda (BCP47-format)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>Licensavtal</value>
@@ -386,7 +387,7 @@ De kan konfigureras via inställnings filen "winget settings".</value>
     <value>Filtrera resultat efter namn</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>Inga installationsprogram finns för det aktuella systemet.</value>
+    <value>Inget tillämpligt installations program hittades. Mer information finns i loggarna.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
     <value>Det finns för närvarande inga experimentella funktioner. </value>
@@ -475,6 +476,9 @@ De kan konfigureras via inställnings filen "winget settings".</value>
   </data>
   <data name="ShowChannel" xml:space="preserve">
     <value>Kanal</value>
+  </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>Visar information om ett specifikt paket. Som standard måste frågan matcha ID, namn eller länksökväg för paketet. Andra fält kan användas genom att välja lämpliga alternativ.</value>
   </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
     <value>Visar information om ett paket</value>
@@ -660,7 +664,7 @@ De kan konfigureras via inställnings filen "winget settings".</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>Uppdaterar det givna paketet</value>
+    <value>Uppdaterar angivet paket</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>användning</value>
@@ -682,7 +686,7 @@ De kan konfigureras via inställnings filen "winget settings".</value>
     <value>Kontrollera att indatafilen är en giltig, signerad MSIX.</value>
   </data>
   <data name="VersionArgumentDescription" xml:space="preserve">
-    <value>Använd den angivna versionen. standard är den senaste versionen</value>
+    <value>Använd den angivna versionen. Standard är den senaste versionen</value>
   </data>
   <data name="VersionsArgumentDescription" xml:space="preserve">
     <value>Visa tillgängliga versioner av paketet</value>
@@ -718,5 +722,203 @@ De kan konfigureras via inställnings filen "winget settings".</value>
   <data name="Logs" xml:space="preserve">
     <value>Loggar</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>Installationsprogrammet blockeras av en princip</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>Säkerhetskontrollen för installationsprogrammet misslyckades</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>En antivirusprodukt rapporterar ett angrepp i installationsprogrammet</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>Det gick inte att uppdatera källan:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>Avinstallerar det valda paketet, som antingen hittas genom att söka i listan över installerade paket eller direkt från ett manifest. Som standard måste frågan skiftlägesokänsligt matcha paketets id, namn eller länksökväg. Andra fält kan användas genom att lämna lämpligt alternativ.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>Avinstallerar angivet paket</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>Startar avinstallationen av paketet...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>Avinstallerad</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget kan inte hitta avinstallations kommandot för det här paketet. Kontakta paket utgivaren för support.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>Avinstallation har avbrutits</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>Avinstallationen misslyckades med slutkod:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>Exporterar en lista över installerade paket</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>Installerar alla paket som finns i en fil.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>Installerar alla paket i en fil</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>Fil där resultatet ska skrivas</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>Fil som beskriver paketen som ska installeras</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>Exportera paket från den angivna källan</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>Skriver en lista över installerade paket till en fil. Paketen kan installeras med kommandot import.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>Det gick inte att installera ett eller flera importerade paket</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>Det var inte möjligt att hitta paketet för importering:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>Den källa som krävs för import är inte installerad:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>Det installerade paketet är inte tillgängligt från någon källa:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>Den installerade versionen av paketet är inte tillgänglig från någon källa:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>Inga paket hittades i importfilen</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON-filen är ogiltig.</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>Packet är redan installerat:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>Ignorera inaktiverade paket</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>Inkludera paketversioner i genererad fil</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>Ignorera paketversioner från importfilen</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>Sökvägen finns inte:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON-filen anger inte ett schema som känns igen.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>Välj installationsomfång (användare eller maskin)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>Det angivna värdet för argumentet%1är ogiltigt. giltiga värden är</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>Den här åtgärden har inaktiverats av grupprincip</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>Aktivera ytterligare installationskällor för Windows-appar</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Aktivera tillåtna källor i Windows Appinstallationsprogram</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Aktivera standardkälla för Windows Appinstallationsprogram</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Aktivera experimentfunktioner i Windows Appinstallationsprogram</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Aktivera Microsoft Store-källa för Windows Appinstallationsprogram</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Aktivera inställningar för Windows Package Manager</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Aktivera Windows Package Manager</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>Ange intervall i minuter för automatisk uppdatering av Windows Package Manager-källan</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>Inaktiverad</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>Aktiverat</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>Grupprincip</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>Tillstånd</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Aktivera lokala manifestfiler för Windows Appinstallationsprogram</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>Fält:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>Ogiltigt fältformat.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>Ogiltigt fältvärde.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>Ogiltig inställning från grupprincip.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>Läste in inställningar från säkerhetskopian.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>Fel vid parsning av fil:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>Värde:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>Följande experimentella funktioner pågår.
+Konfigurationen har inaktiverats på grund av en grup princip.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>Installationshash matchar inte.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Aktivera åsidosättning av hash för Windows Appinstallationsprogram</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>Exportera aktuella källor som JSON för grup princip.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>Exportera aktuella källor</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>Ytterligare källa</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>Tillåten källa</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>Det angivna värdet för argumentet%1är ogiltigt</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

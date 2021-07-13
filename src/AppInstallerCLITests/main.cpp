@@ -9,6 +9,7 @@
 
 #include <Public/AppInstallerLogging.h>
 #include <Public/AppInstallerTelemetry.h>
+#include <Telemetry/TraceLogging.h>
 
 #include "TestCommon.h"
 #include "TestHooks.h"
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
 
     bool hasSetTestDataBasePath = false;
     bool waitBeforeReturn = false;
+    bool keepSQLLogging = false;
 
     std::vector<char*> args;
     for (int i = 0; i < argc; ++i)
@@ -71,7 +73,7 @@ int main(int argc, char** argv)
         else if ("-logto"s == argv[i])
         {
             ++i;
-            Logging::AddFileLogger(argv[i]);
+            Logging::AddFileLogger(std::string_view{ argv[i] });
         }
         else if ("-tdd"s == argv[i])
         {
@@ -85,6 +87,10 @@ int main(int argc, char** argv)
         else if ("-wait"s == argv[i])
         {
             waitBeforeReturn = true;
+        }
+        else if ("-logsql"s == argv[i])
+        {
+            keepSQLLogging = true;
         }
         else
         {
@@ -105,11 +111,20 @@ int main(int argc, char** argv)
         }
     }
 
-    // Enable all logging, to force log string building to run.
+    // Enable logging, to force log string building to run.
+    // Disable SQL by default, as it generates 10s of MBs of log file and
+    // increases the the full test run time by 60% or more.
     // By not creating a log target, it will all be thrown away.
     Logging::Log().EnableChannel(Logging::Channel::All);
+    if (!keepSQLLogging)
+    {
+        Logging::Log().DisableChannel(Logging::Channel::SQL);
+    }
     Logging::Log().SetLevel(Logging::Level::Verbose);
     Logging::EnableWilFailureTelemetry();
+
+    // Forcibly enable event writing to catch bugs in that code
+    g_IsTelemetryProviderEnabled = true;
 
     // Force all tests to run against settings inside this container.
     // This prevents test runs from trashing the users actual settings.

@@ -9,8 +9,8 @@ namespace AppInstaller::CLI::Execution
     using namespace Settings;
     using namespace VirtualTerminal;
 
-    const Sequence& HelpCommandEmphasis = TextFormat::Foreground::BrightWhite;
-    const Sequence& HelpArgumentEmphasis = TextFormat::Foreground::BrightWhite;
+    const Sequence& HelpCommandEmphasis = TextFormat::Foreground::Bright;
+    const Sequence& HelpArgumentEmphasis = TextFormat::Foreground::Bright;
     const Sequence& NameEmphasis = TextFormat::Foreground::BrightCyan;
     const Sequence& IdEmphasis = TextFormat::Foreground::BrightCyan;
     const Sequence& UrlEmphasis = TextFormat::Foreground::BrightBlue;
@@ -20,7 +20,9 @@ namespace AppInstaller::CLI::Execution
         m_in(inStream),
         m_progressBar(std::in_place, outStream, IsVTEnabled()),
         m_spinner(std::in_place, outStream, IsVTEnabled())
-    {}
+    {
+        SetProgressSink(this);
+    }
 
     Reporter::~Reporter()
     {
@@ -32,6 +34,10 @@ namespace AppInstaller::CLI::Execution
     Reporter::Reporter(const Reporter& other, clone_t) :
         Reporter(other.m_out, other.m_in)
     {
+        if (other.m_style.has_value())
+        {
+            SetStyle(*other.m_style);
+        }
     }
 
     OutputStream Reporter::GetOutputStream(Level level)
@@ -78,6 +84,7 @@ namespace AppInstaller::CLI::Execution
 
     void Reporter::SetStyle(VisualStyle style)
     {
+        m_style = style;
         if (m_spinner)
         {
             m_spinner->SetStyle(style);
@@ -115,6 +122,22 @@ namespace AppInstaller::CLI::Execution
             m_progressBar->ShowProgress(current, maximum, type);
         }
     }
+    
+    void Reporter::BeginProgress()
+    {
+        GetBasicOutputStream() << VirtualTerminal::Cursor::Visibility::DisableShow;
+        ShowIndefiniteProgress(true);
+    };
+
+    void Reporter::EndProgress(bool hideProgressWhenDone)
+    {
+        ShowIndefiniteProgress(false);
+        if (m_progressBar)
+        {
+            m_progressBar->EndProgress(hideProgressWhenDone);
+        }
+        GetBasicOutputStream() << VirtualTerminal::Cursor::Visibility::EnableShow;
+    };
 
     void Reporter::SetProgressCallback(ProgressCallback* callback)
     {

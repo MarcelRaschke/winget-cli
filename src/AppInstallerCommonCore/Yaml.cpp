@@ -244,6 +244,12 @@ namespace AppInstaller::YAML
         return std::stoll(m_scalar);
     }
 
+    int Node::as_dispatch(int*) const
+    {
+        // To allow HResult representation
+        return static_cast<int>(std::stoll(m_scalar, 0, 0));
+    }
+
     bool Node::as_dispatch(bool*) const
     {
         if (Utility::CaseInsensitiveEquals(m_scalar, "true"))
@@ -280,9 +286,9 @@ namespace AppInstaller::YAML
         return Load(static_cast<std::string_view>(input));
     }
 
-    Node Load(std::istream& input)
+    Node Load(std::istream& input, Utility::SHA256::HashBuffer* hashOut)
     {
-        Wrapper::Parser parser(input);
+        Wrapper::Parser parser(input, hashOut);
         Wrapper::Document document = parser.Load();
 
         if (document.HasRoot())
@@ -295,11 +301,21 @@ namespace AppInstaller::YAML
         }
     }
 
-    Node Load(const std::filesystem::path& input)
+    Node Load(const std::filesystem::path& input, Utility::SHA256::HashBuffer* hashOut)
     {
         std::ifstream stream(input, std::ios_base::in | std::ios_base::binary);
         THROW_LAST_ERROR_IF(stream.fail());
-        return Load(stream);
+        return Load(stream, hashOut);
+    }
+
+    Node Load(const std::filesystem::path& input)
+    {
+        return Load(input, nullptr);
+    }
+
+    Node Load(const std::filesystem::path& input, Utility::SHA256::HashBuffer& hashOut)
+    {
+        return Load(input, &hashOut);
     }
 
     Emitter::Emitter() :
@@ -308,8 +324,8 @@ namespace AppInstaller::YAML
         SetAllowedInputs<InputType::BeginMap, InputType::BeginSeq>();
     }
 
-    Emitter::Emitter(Emitter&&) = default;
-    Emitter& Emitter::operator=(Emitter&&) = default;
+    Emitter::Emitter(Emitter&&) noexcept = default;
+    Emitter& Emitter::operator=(Emitter&&) noexcept = default;
 
     Emitter::~Emitter() = default;
 
@@ -416,6 +432,14 @@ namespace AppInstaller::YAML
         emitter.Flush();
 
         return stream.str();
+    }
+
+    void Emitter::Emit(std::ostream& out)
+    {
+        Wrapper::Emitter emitter(out);
+
+        emitter.Dump(*m_document);
+        emitter.Flush();
     }
 
     void Emitter::AppendNode(int id)

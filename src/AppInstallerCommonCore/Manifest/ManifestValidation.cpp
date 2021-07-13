@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 #include "pch.h"
 #include "winget/ManifestValidation.h"
+#include "winget/Locale.h"
 
 namespace AppInstaller::Manifest
 {
@@ -25,10 +26,9 @@ namespace AppInstaller::Manifest
             resultErrors.emplace_back(ManifestError::InvalidFieldValue, "Version", manifest.Version);
         }
 
-        // License field is required
-        if (manifest.License.empty())
+        if (!manifest.DefaultLocalization.Locale.empty() && !Locale::IsWellFormedBcp47Tag(manifest.DefaultLocalization.Locale))
         {
-            resultErrors.emplace_back(ManifestError::RequiredFieldMissing, "License");
+            resultErrors.emplace_back(ManifestError::InvalidBcp47Value, "PackageLocale", manifest.DefaultLocalization.Locale);
         }
 
         // Comparison function to check duplicate installer entry. {installerType, arch, language and scope} combination is the key.
@@ -45,12 +45,14 @@ namespace AppInstaller::Manifest
                 return in1.Arch < in2.Arch;
             }
 
-            if (in1.Language != in2.Language)
+            if (in1.Locale != in2.Locale)
             {
-                return in1.Language < in2.Language;
+                return in1.Locale < in2.Locale;
             }
 
-            if (in1.Scope != in2.Scope)
+            // Unknown is considered equal to all other values for uniqueness.
+            // If either value is unknown, don't compare them.
+            if (in1.Scope != in2.Scope && in1.Scope != ScopeEnum::Unknown && in2.Scope != ScopeEnum::Unknown)
             {
                 return in1.Scope < in2.Scope;
             }
@@ -75,33 +77,33 @@ namespace AppInstaller::Manifest
                 resultErrors.emplace_back(ManifestError::InvalidFieldValue, "Arch");
             }
 
-            if (installer.InstallerType == ManifestInstaller::InstallerTypeEnum::Unknown)
+            if (installer.InstallerType == InstallerTypeEnum::Unknown)
             {
                 resultErrors.emplace_back(ManifestError::InvalidFieldValue, "InstallerType");
             }
 
-            if (installer.UpdateBehavior == ManifestInstaller::UpdateBehaviorEnum::Unknown)
+            if (installer.UpdateBehavior == UpdateBehaviorEnum::Unknown)
             {
                 resultErrors.emplace_back(ManifestError::InvalidFieldValue, "UpdateBehavior");
             }
 
             // Validate system reference strings if they are set at the installer level
-            if (!installer.PackageFamilyName.empty() && !ManifestInstaller::DoesInstallerTypeUsePackageFamilyName(installer.InstallerType))
+            if (!installer.PackageFamilyName.empty() && !DoesInstallerTypeUsePackageFamilyName(installer.InstallerType))
             {
-                resultErrors.emplace_back(ManifestError::InstallerTypeDoesNotSupportPackageFamilyName, "InstallerType", ManifestInstaller::InstallerTypeToString(installer.InstallerType));
+                resultErrors.emplace_back(ManifestError::InstallerTypeDoesNotSupportPackageFamilyName, "InstallerType", InstallerTypeToString(installer.InstallerType));
             }
 
-            if (!installer.ProductCode.empty() && !ManifestInstaller::DoesInstallerTypeUseProductCode(installer.InstallerType))
+            if (!installer.ProductCode.empty() && !DoesInstallerTypeUseProductCode(installer.InstallerType))
             {
-                resultErrors.emplace_back(ManifestError::InstallerTypeDoesNotSupportProductCode, "InstallerType", ManifestInstaller::InstallerTypeToString(installer.InstallerType));
+                resultErrors.emplace_back(ManifestError::InstallerTypeDoesNotSupportProductCode, "InstallerType", InstallerTypeToString(installer.InstallerType));
             }
 
-            if (installer.InstallerType == ManifestInstaller::InstallerTypeEnum::MSStore)
+            if (installer.InstallerType == InstallerTypeEnum::MSStore)
             {
                 // MSStore type is not supported in community repo
                 resultErrors.emplace_back(
                     ManifestError::FieldValueNotSupported, "InstallerType",
-                    ManifestInstaller::InstallerTypeToString(installer.InstallerType));
+                    InstallerTypeToString(installer.InstallerType));
 
                 if (installer.ProductId.empty())
                 {
@@ -126,9 +128,9 @@ namespace AppInstaller::Manifest
                 }
             }
 
-            if (installer.InstallerType == ManifestInstaller::InstallerTypeEnum::Exe &&
-                (installer.Switches.find(ManifestInstaller::InstallerSwitchType::SilentWithProgress) == installer.Switches.end() ||
-                 installer.Switches.find(ManifestInstaller::InstallerSwitchType::Silent) == installer.Switches.end()))
+            if (installer.InstallerType == InstallerTypeEnum::Exe &&
+                (installer.Switches.find(InstallerSwitchType::SilentWithProgress) == installer.Switches.end() ||
+                 installer.Switches.find(InstallerSwitchType::Silent) == installer.Switches.end()))
             {
                 resultErrors.emplace_back(ManifestError::ExeInstallerMissingSilentSwitches, ValidationError::Level::Warning);
             }
@@ -137,6 +139,20 @@ namespace AppInstaller::Manifest
             if (!installer.Url.empty() && IsValidURL(NULL, Utility::ConvertToUTF16(installer.Url).c_str(), 0) == S_FALSE)
             {
                 resultErrors.emplace_back(ManifestError::InvalidFieldValue, "Url", installer.Url);
+            }
+
+            if (!installer.Locale.empty() && !Locale::IsWellFormedBcp47Tag(installer.Locale))
+            {
+                resultErrors.emplace_back(ManifestError::InvalidBcp47Value, "InstallerLocale", installer.Locale);
+            }
+        }
+
+        // Validate localizations
+        for (auto const& localization : manifest.Localizations)
+        {
+            if (!localization.Locale.empty() && !Locale::IsWellFormedBcp47Tag(localization.Locale))
+            {
+                resultErrors.emplace_back(ManifestError::InvalidBcp47Value, "PackageLocale", localization.Locale);
             }
         }
 

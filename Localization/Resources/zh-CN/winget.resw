@@ -298,8 +298,9 @@
   <data name="InvalidNameError" xml:space="preserve">
     <value>当前命令无法识别参数名称</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>要安装的语言（如支持）</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>要使用的区域设置(BCP47 格式)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>许可协议</value>
@@ -386,7 +387,7 @@
     <value>按名称筛选结果</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>没有适用于当前系统的安装程序。</value>
+    <value>找不到适用的安装程序;有关详细信息，请参阅日志。</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
     <value>当前没有实验性功能可用。</value>
@@ -476,8 +477,11 @@
   <data name="ShowChannel" xml:space="preserve">
     <value>频道</value>
   </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>显示有关特定程序包的信息。默认情况下，查询必须以不区分大小写的方式匹配程序包的 ID、名称或名字对象。可通过传递相应的选项来使用其他字段。</value>
+  </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
-    <value>显示有关程序包的信息</value>
+    <value>显示包的相关信息</value>
   </data>
   <data name="ShowVersion" xml:space="preserve">
     <value>版本</value>
@@ -656,11 +660,11 @@
     <value>找不到适用的更新。</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>通过搜索 "已安装的包" 列表或直接从清单更新所选的包。默认情况下，查询必须 insensitively 匹配程序包的 id、名称或名字对象。可通过传递适当的选项来使用其他字段。</value>
+    <value>通过搜索已安装的程序包列表或直接从清单升级所选的程序包。默认情况下，查询必须 insensitively 匹配程序包的 id、名称或名字对象。可通过传递适当的选项来使用其他字段。</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>更新给定的程序包</value>
+    <value>升级给定的程序包</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>使用情况</value>
@@ -718,5 +722,203 @@
   <data name="Logs" xml:space="preserve">
     <value>日志</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>安装程序已被策略阻止</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>安装程序未通过安全性检查</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>防病毒产品报告安装程序受感染</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>尝试更新源时失败：</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>通过搜索已安装的程序包列表或直接从清单中卸载选择的程序包。默认情况下，查询必须 insensitively 匹配程序包的 id、名称或名字对象。可通过传递适当的选项来使用其他字段。</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>卸载给定的程序包</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>正在启动程序包卸载...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>已成功卸载</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget 找不到此程序包的卸载命令。请与程序包发布者联系以获取支持。</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>卸载已放弃</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>卸载失败，退出代码为：</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>导出已安装程序包的列表</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>安装文件中列出的所有程序包。</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>安装文件中的所有程序包</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>将在其中写入结果的文件</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>描述要安装的程序包的文件</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>从指定源导出程序包</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>将已安装程序包的列表写入文件。然后可以通过 import 命令安装这些包。</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>无法安装一个或多个导入的程序包</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>找不到要导入的程序包:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>未安装导入所需的源:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>无法从任何源获得已安装的程序包:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>无法从任何源获得已安装的程序包版本:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>在导入文件中找不到程序包</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON 文件无效</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>已安装程序包:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>忽略不可用的程序包</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>在生成的文件中包括程序包版本</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>忽略导入文件中的程序包版本</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>路径不存在:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON 文件未指定可识别的架构。</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>选择安装范围(用户或计算机)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>为 "%1" 参数提供的值无效;有效值为</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>此操作已被组策略禁用</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>启用其他 Windows 应用安装程序源</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>启用 Windows 应用安装程序允许的源</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>启用 Windows 应用安装程序默认源</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>启用 Windows 应用安装程序实验性功能</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>启用 Windows 应用安装程序 Microsoft Store 源</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>启用 Windows 程序包管理器设置</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>启用 Windows 程序包管理器</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>设置 Windows 程序包管理器源自动更新间隔(分钟)</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>已禁用</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>已启用</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>组策略</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>状态</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>启用 Windows 应用安装程序本地清单文件</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>字段:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>字段格式无效。</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>字段值无效。</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>组策略中的设置无效。</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>已从备份文件加载设置。</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>分析文件时出错:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>值:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>以下实验功能正在进行中。
+由于组策略，配置已被禁用。</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>安装程序哈希不匹配。</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>启用 Windows 应用安装程序哈希替代</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>将当前源作为组策略的 JSON 导出。</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>导出当前源</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>其他源</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>允许的源</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>为 "%1" 参数提供的值无效</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

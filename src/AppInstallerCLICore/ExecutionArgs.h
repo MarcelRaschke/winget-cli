@@ -33,15 +33,18 @@ namespace AppInstaller::CLI::Execution
             // Install behavior
             Interactive,
             Silent,
-            Language,
+            Locale,
             Log,
             Override, //Override args are (and the only args) directly passed to installer
             InstallLocation,
+            InstallScope,
+            HashOverride, // Ignore hash mismatches
 
             //Source Command
             SourceName,
             SourceType,
             SourceArg,
+            ForceSourceReset,
 
             //Hash Command
             HashFile,
@@ -55,9 +58,17 @@ namespace AppInstaller::CLI::Execution
             CommandLine,
             Position,
 
+            // Export Command
+            OutputFile,
+            IncludeVersions,
+
+            // Import Command
+            ImportFile,
+            IgnoreUnavailable,
+            IgnoreVersions,
+
             // Other
             All, // Used in Update command to update all installed packages to latest
-            Force,      // Generic flag to enable a command to skip some check
             ListVersions, // Used in Show command to list all available versions of an app
             NoVT, // Disable VirtualTerminal outputs
             RetroStyle, // Makes progress display as retro

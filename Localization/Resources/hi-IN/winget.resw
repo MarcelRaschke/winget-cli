@@ -298,8 +298,9 @@
   <data name="InvalidNameError" xml:space="preserve">
     <value>वर्तमान आदेश के लिए तर्क नाम पहचाना नहीं गया</value>
   </data>
-  <data name="LanguageArgumentDescription" xml:space="preserve">
-    <value>स्थापित करने के लिए भाषा (यदि समर्थित हो)</value>
+  <data name="LocaleArgumentDescription" xml:space="preserve">
+    <value>उपयोग करने के लिए लोकेल (BCP47 फ़ॉर्मेट)</value>
+    <comment>{Locked="BCP47"}</comment>
   </data>
   <data name="LicenseAgreement" xml:space="preserve">
     <value>लायसेंस अनुबंध</value>
@@ -386,10 +387,10 @@
     <value>नाम के अनुसार परिणामों को फ़िल्टर करें</value>
   </data>
   <data name="NoApplicableInstallers" xml:space="preserve">
-    <value>वर्तमान सिस्टम पर कोई भी installer लागू नहीं है.</value>
+    <value>कोई लागू इंस्टॉलर नहीं मिला; अधिक विवरण के लिए लॉग्स देखें.</value>
   </data>
   <data name="NoExperimentalFeaturesMessage" xml:space="preserve">
-    <value>वर्तमान में कोई प्रयोगात्मक सुविधाएँ उपलब्ध नहीं हैं.</value>
+    <value>इस समय कोई प्रयोगात्मक सुविधाएँ उपलब्ध नहीं हैं. </value>
   </data>
   <data name="NoInstalledPackageFound" xml:space="preserve">
     <value>इनपुट मानदंड से मेल खाता कोई स्थापित पैकेज नहीं मिला.</value>
@@ -475,6 +476,9 @@
   </data>
   <data name="ShowChannel" xml:space="preserve">
     <value>चैनल</value>
+  </data>
+  <data name="ShowCommandLongDescription" xml:space="preserve">
+    <value>किसी विशिष्ट पैकेज पर जानकारी दिखाता है. डिफ़ॉल्ट रूप से, क्वेरी को केस-संवेदी रूप से पैकेज के id, नाम, या moniker से मेल खाना आवश्यक है. अन्य फ़ील्ड्स का उचित विकल्प पास करके उपयोग किया जा सकता है.</value>
   </data>
   <data name="ShowCommandShortDescription" xml:space="preserve">
     <value>किसी पैकेज के बारे में जानकारी दिखाता है</value>
@@ -650,17 +654,17 @@
     <value>अपरिचित आदेश</value>
   </data>
   <data name="UpdateAllArgumentDescription" xml:space="preserve">
-    <value>सभी स्थापित पैकेज को नवीनतम के लिए अद्यतन करें यदि उपलब्ध हैं</value>
+    <value>उपलब्ध होने पर सभी स्थापित पैकेज को नवीनतम के लिए अद्यतन करें</value>
   </data>
   <data name="UpdateNotApplicable" xml:space="preserve">
     <value>कोई लागू अद्यतन नहीं मिला.</value>
   </data>
   <data name="UpgradeCommandLongDescription" xml:space="preserve">
-    <value>चयनित पैकेज का अद्यतन करता है, या तो स्थापित पैकेज सूची को खोज कर या सीधे किसी मैनिफ़ेस्ट से पाया जाता है. डिफ़ॉल्ट रूप से, क्वेरी को केस-संवेदी रूप से पैकेज के id, नाम, या moniker से मेल खाना आवश्यक है. अन्य फ़ील्ड्स का उचित विकल्प पास करके उपयोग किया जा सकता है.</value>
+    <value>चयनित पैकेज को नवीनीकृत करता है, या तो स्थापित पैकेज सूची को खोज कर या सीधे किसी मैनिफ़ेस्ट से मिला है. डिफ़ॉल्ट रूप से, क्वेरी को केस-संवेदी रूप से पैकेज के id, नाम, या moniker से मेल खाना आवश्यक है. अन्य फ़ील्ड्स का उचित विकल्प पास करके उपयोग किया जा सकता है.</value>
     <comment>id, name, and moniker are all named values in our context, and may benefit from not being translated.</comment>
   </data>
   <data name="UpgradeCommandShortDescription" xml:space="preserve">
-    <value>दिए गए पैकेज को अद्यतन करता है</value>
+    <value>दिए गए पैकेज का नवीनीकरण करता है</value>
   </data>
   <data name="Usage" xml:space="preserve">
     <value>उपयोग</value>
@@ -718,5 +722,203 @@
   <data name="Logs" xml:space="preserve">
     <value>लॉग</value>
     <comment>Diagnostic files containing information about application use.</comment>
+  </data>
+  <data name="InstallerBlockedByPolicy" xml:space="preserve">
+    <value>इंस्टॉलर को नीति के कारण अवरोधित किया गया</value>
+  </data>
+  <data name="InstallerFailedSecurityCheck" xml:space="preserve">
+    <value>इंस्टॉलर सुरक्षा जाँच में विफल रहा</value>
+  </data>
+  <data name="InstallerFailedVirusScan" xml:space="preserve">
+    <value>एक एंटी-वायरस उत्पाद इंस्टॉलर में संक्रमण की रिपोर्ट करता है</value>
+  </data>
+  <data name="SourceOpenWithFailedUpdate" xml:space="preserve">
+    <value>स्रोत को अद्यतन करने के प्रयास में विफल रहा:</value>
+  </data>
+  <data name="UninstallCommandLongDescription" xml:space="preserve">
+    <value>चयनित पैकेज की स्थापना रद्द करें, या तो स्थापित पैकेज सूची में खोज कर या सीधे किसी मैनिफ़ेस्ट से मिले. डिफ़ॉल्ट रूप से, क्वेरी को केस-संवेदी रूप से पैकेज के id, नाम, या moniker से मेल खाना आवश्यक है. अन्य फ़ील्ड्स का उचित विकल्प पास करके उपयोग किया जा सकता है.</value>
+  </data>
+  <data name="UninstallCommandShortDescription" xml:space="preserve">
+    <value>दिए गए पैकेज की स्थापना रद्द करता है</value>
+  </data>
+  <data name="UninstallFlowStartingPackageUninstall" xml:space="preserve">
+    <value>पैकेज स्थापना रद्द करना प्रारंभ हो रहा है...</value>
+  </data>
+  <data name="UninstallFlowUninstallSuccess" xml:space="preserve">
+    <value>स्थापना सफलतापूर्वक रद्द की गई</value>
+  </data>
+  <data name="NoUninstallInfoFound" xml:space="preserve">
+    <value>winget इस पैकेज के लिए स्थापना रद्द करें आदेश का पता नहीं लगा सकता. कृपया सहायता के लिए पैकेज प्रकाशक से संपर्क करें.</value>
+    <comment>{Locked="winget"}</comment>
+  </data>
+  <data name="UninstallAbandoned" xml:space="preserve">
+    <value>स्थापना रद्द करना छोड़ा गया</value>
+  </data>
+  <data name="UninstallFailedWithCode" xml:space="preserve">
+    <value>निकास कोड के साथ स्थापना रद्द करना विफल रहा:</value>
+  </data>
+  <data name="ExportCommandShortDescription" xml:space="preserve">
+    <value>स्थापित पैकेज की सूची निर्यात करता है</value>
+  </data>
+  <data name="ImportCommandLongDescription" xml:space="preserve">
+    <value>किसी फ़ाइल में सूचीबद्ध सभी पैकेज स्थापित करता है.</value>
+  </data>
+  <data name="ImportCommandShortDescription" xml:space="preserve">
+    <value>किसी फ़ाइल में सभी पैकेज स्थापित करता है</value>
+  </data>
+  <data name="OutputFileArgumentDescription" xml:space="preserve">
+    <value>फ़ाइल जहाँ परिणाम लिखा जाना है</value>
+  </data>
+  <data name="ImportFileArgumentDescription" xml:space="preserve">
+    <value>स्थापित करने के लिए पैकेज का वर्णन करने वाली फ़ाइल</value>
+  </data>
+  <data name="ExportSourceArgumentDescription" xml:space="preserve">
+    <value>निर्दिष्ट स्रोत से पैकेज का निर्यात करें</value>
+  </data>
+  <data name="ExportCommandLongDescription" xml:space="preserve">
+    <value>किसी फ़ाइल में स्थापित पैकेज की सूची लिखता है. इसके बाद import आदेश के साथ पैकेज स्थापित किए जा सकते हैं.</value>
+    <comment>{Locked="import"}</comment>
+  </data>
+  <data name="ImportInstallFailed" xml:space="preserve">
+    <value>एक या अधिक आयातित पैकेज स्थापित करने में विफल</value>
+  </data>
+  <data name="ImportSearchFailed" xml:space="preserve">
+    <value>आयात के लिए पैकेज नहीं मिला:</value>
+  </data>
+  <data name="ImportSourceNotInstalled" xml:space="preserve">
+    <value>आयात के लिए आवश्यक स्रोत स्थापित नहीं है:</value>
+  </data>
+  <data name="InstalledPackageNotAvailable" xml:space="preserve">
+    <value>स्थापित पैकेज किसी भी स्रोत से उपलब्ध नहीं है:</value>
+  </data>
+  <data name="InstalledPackageVersionNotAvailable" xml:space="preserve">
+    <value>पैकेज का स्थापित संस्करण किसी भी स्रोत से उपलब्ध नहीं है:</value>
+  </data>
+  <data name="NoPackagesInImportFile" xml:space="preserve">
+    <value>आयात फ़ाइल में कोई पैकेज नहीं मिला</value>
+  </data>
+  <data name="InvalidJsonFile" xml:space="preserve">
+    <value>JSON फ़ाइल मान्य नहीं है</value>
+  </data>
+  <data name="ImportPackageAlreadyInstalled" xml:space="preserve">
+    <value>पैकेज पहले से ही स्थापित है:</value>
+  </data>
+  <data name="ImportIgnoreUnavailableArgumentDescription" xml:space="preserve">
+    <value>अनुपलब्ध पैकेज पर ध्यान न दें</value>
+  </data>
+  <data name="ExportIncludeVersionsArgumentDescription" xml:space="preserve">
+    <value>उत्पादित फ़ाइल में पैकेज संस्करण को शामिल करें</value>
+  </data>
+  <data name="ImportIgnoreVersionsArgumentDescription" xml:space="preserve">
+    <value>आयात फ़ाइल से मिले पैकेज संस्करणों पर ध्यान न दें</value>
+  </data>
+  <data name="VerifyPathFailedNotExist" xml:space="preserve">
+    <value>पथ मौजूद नहीं है:</value>
+  </data>
+  <data name="ImportFileHasInvalidSchema" xml:space="preserve">
+    <value>JSON फ़ाइल कोई मान्यता प्राप्त स्कीमा निर्दिष्ट नहीं करती है.</value>
+  </data>
+  <data name="InstallScopeDescription" xml:space="preserve">
+    <value>स्थापना क्षेत्र का चयन करें (उपयोगकर्ता या मशीन)</value>
+    <comment>This argument allows the user to select between installing for just the user or for the entire machine.</comment>
+  </data>
+  <data name="InvalidArgumentValueError" xml:space="preserve">
+    <value>'%1' तर्क के लिए प्रदान किया गया मान अमान्य है; मान्य मान हैं</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
+  </data>
+  <data name="DisabledByGroupPolicy" xml:space="preserve">
+    <value>यह कार्रवाई समूह नीति द्वारा अक्षम की गई है</value>
+  </data>
+  <data name="PolicyAdditionalSources" xml:space="preserve">
+    <value>अतिरिक्त Windows ऐप इंस्टॉलर स्रोत को सक्षम करें</value>
+  </data>
+  <data name="PolicyAllowedSources" xml:space="preserve">
+    <value>Windows App Installer अनुमत स्रोत सक्षम करें</value>
+  </data>
+  <data name="PolicyEnableDefaultSource" xml:space="preserve">
+    <value>Windows ऐप इंस्टॉलर डिफ़ॉल्ट स्रोत सक्षम करें</value>
+  </data>
+  <data name="PolicyEnableExperimentalFeatures" xml:space="preserve">
+    <value>Windows ऐप इंस्टॉलर प्रयोगात्मक सुविधाएँ सक्षम करें</value>
+  </data>
+  <data name="PolicyEnableMSStoreSource" xml:space="preserve">
+    <value>Windows ऐप इंस्टॉलर Microsoft Store स्रोत को सक्षम करें</value>
+  </data>
+  <data name="PolicyEnableWinGetSettings" xml:space="preserve">
+    <value>Windows पैकेज प्रबंधक सेटिंग्स सक्षम करें</value>
+  </data>
+  <data name="PolicyEnableWinGet" xml:space="preserve">
+    <value>Windows पैकेज प्रबंधक को सक्षम करें</value>
+  </data>
+  <data name="PolicySourceAutoUpdateInterval" xml:space="preserve">
+    <value>मिनटों में Windows पैकेज प्रबंधक स्रोत स्वतः अद्यतन अंतराल सेट करें</value>
+  </data>
+  <data name="PoliciesDisabled" xml:space="preserve">
+    <value>अक्षम किया गया</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesEnabled" xml:space="preserve">
+    <value>सक्षम किया गया</value>
+    <comment>As in enabled/disabled</comment>
+  </data>
+  <data name="PoliciesPolicy" xml:space="preserve">
+    <value>समूह नीति</value>
+    <comment>Header for a table listing active Group Policies</comment>
+  </data>
+  <data name="PoliciesState" xml:space="preserve">
+    <value>राज्य</value>
+    <comment>Header for a table listing the state (enabled/disabled) of Group Policies</comment>
+  </data>
+  <data name="PolicyEnableLocalManifests" xml:space="preserve">
+    <value>Windows ऐप इंस्टॉलर स्थानीय मैनिफ़ेस्ट फ़ाइलें सक्षम करें</value>
+  </data>
+  <data name="SettingsWarningField" xml:space="preserve">
+    <value>फ़ील्ड:</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldFormat" xml:space="preserve">
+    <value>अमान्य फ़ील्ड स्वरूप.</value>
+  </data>
+  <data name="SettingsWarningInvalidFieldValue" xml:space="preserve">
+    <value>अमान्य फ़ील्ड मान.</value>
+  </data>
+  <data name="SettingsWarningInvalidValueFromPolicy" xml:space="preserve">
+    <value>समूह नीति से अमान्य सेटिंग.</value>
+  </data>
+  <data name="SettingsWarningLoadedBackupSettings" xml:space="preserve">
+    <value>बैकअप फ़ाइल से लोड की गईं सेटिंग्स.</value>
+  </data>
+  <data name="SettingsWarningParseError" xml:space="preserve">
+    <value>त्रुटि पार्सिंग फ़ाइल:</value>
+  </data>
+  <data name="SettingsWarningValue" xml:space="preserve">
+    <value>मान:</value>
+  </data>
+  <data name="FeaturesMessageDisabledByPolicy" xml:space="preserve">
+    <value>निम्न प्रयोगात्मक सुविधाएँ प्रगति पर हैं.
+समूह नीति के कारण कॉन्फ़िगरेशन अक्षम किया गया है.</value>
+  </data>
+  <data name="InstallerHashMismatchError" xml:space="preserve">
+    <value>इंस्टॉलर हैश मेल नहीं खाता है.</value>
+  </data>
+  <data name="PolicyEnableHashOverride" xml:space="preserve">
+    <value>Windows ऐप इंस्टॉलर हैश ओवरराइड को सक्षम करें</value>
+  </data>
+  <data name="SourceExportCommandLongDescription" xml:space="preserve">
+    <value>वर्तमान स्रोतों को समूह नीति के लिए JSON के रूप में निर्यात करें.</value>
+  </data>
+  <data name="SourceExportCommandShortDescription" xml:space="preserve">
+    <value>वर्तमान स्रोतों का निर्यात करें</value>
+  </data>
+  <data name="SourceListAdditionalSource" xml:space="preserve">
+    <value>अतिरिक्त स्रोत</value>
+    <comment>An additional source required by policy.</comment>
+  </data>
+  <data name="SourceListAllowedSource" xml:space="preserve">
+    <value>अनुमत स्रोत</value>
+    <comment>A source that the user is allowed to add.</comment>
+  </data>
+  <data name="InvalidArgumentValueErrorWithoutValidValues" xml:space="preserve">
+    <value>'%1' तर्क के लिए प्रदान किया गया मान अमान्य है</value>
+    <comment>{Locked="%1"} The value will be replaced with the argument name</comment>
   </data>
 </root>

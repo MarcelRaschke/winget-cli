@@ -13,7 +13,8 @@ namespace AppInstaller::CLI
     {
         return {
             Argument::ForType(Execution::Args::Type::Query),
-            Argument::ForType(Execution::Args::Type::Manifest),
+            // The manifest argument from Argument::ForType can be blocked by Group Policy but we don't want that here
+            Argument{ "manifest", 'm', Execution::Args::Type::Manifest, Resource::String::ManifestArgumentDescription, ArgumentType::Standard, Argument::Visibility::Help },
             Argument::ForType(Execution::Args::Type::Id),
             Argument::ForType(Execution::Args::Type::Name),
             Argument::ForType(Execution::Args::Type::Moniker),
@@ -71,6 +72,7 @@ namespace AppInstaller::CLI
         {
             context <<
                 Workflow::GetManifest <<
+                Workflow::ReportManifestIdentity <<
                 Workflow::SelectInstaller <<
                 Workflow::ShowManifestInfo;
         }

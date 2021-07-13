@@ -9,8 +9,32 @@ using namespace AppInstaller::Repository;
 
 namespace TestCommon
 {
-    TestPackageVersion::TestPackageVersion(const Manifest& manifest, MetadataMap installationMetadata) :
-        VersionManifest(manifest), Metadata(std::move(installationMetadata)) {}
+    namespace
+    {
+        template<AppInstaller::Manifest::Localization Field>
+        void BuildPackageVersionMultiPropertyWithFallback(std::vector<Utility::LocIndString>& result, const Manifest::Manifest& VersionManifest)
+        {
+            result.emplace_back(VersionManifest.DefaultLocalization.Get<Field>());
+            for (const auto& loc : VersionManifest.Localizations)
+            {
+                auto f = loc.Get<Field>();
+                if (f.empty())
+                {
+                    result.emplace_back(loc.Get<Field>());
+                }
+                else
+                {
+                    result.emplace_back(std::move(f));
+                }
+            }
+        }
+    }
+
+    TestPackageVersion::TestPackageVersion(const Manifest& manifest, MetadataMap installationMetadata, std::weak_ptr<const ISource> source) :
+        VersionManifest(manifest), Metadata(std::move(installationMetadata)), Source(source) {}
+
+    TestPackageVersion::TestPackageVersion(const Manifest& manifest, std::weak_ptr<const ISource> source) :
+        VersionManifest(manifest), Source(source) {}
 
     TestPackageVersion::LocIndString TestPackageVersion::GetProperty(PackageVersionProperty property) const
     {
@@ -19,11 +43,13 @@ namespace TestCommon
         case PackageVersionProperty::Id:
             return LocIndString{ VersionManifest.Id };
         case PackageVersionProperty::Name:
-            return LocIndString{ VersionManifest.Name };
+            return LocIndString{ VersionManifest.DefaultLocalization.Get<AppInstaller::Manifest::Localization::PackageName>() };
         case PackageVersionProperty::Version:
             return LocIndString{ VersionManifest.Version };
         case PackageVersionProperty::Channel:
             return LocIndString{ VersionManifest.Channel };
+        case PackageVersionProperty::SourceIdentifier:
+            return LocIndString{ Source.lock()->GetIdentifier() };
         default:
             return {};
         }
@@ -47,19 +73,32 @@ namespace TestCommon
                 AddFoldedIfHasValueAndNotPresent(installer.ProductCode, result);
             }
             break;
+        case PackageVersionMultiProperty::Name:
+            BuildPackageVersionMultiPropertyWithFallback<AppInstaller::Manifest::Localization::PackageName>(result, VersionManifest);
+            break;
+        case PackageVersionMultiProperty::Publisher:
+            BuildPackageVersionMultiPropertyWithFallback<AppInstaller::Manifest::Localization::Publisher>(result, VersionManifest);
+            break;
+        case PackageVersionMultiProperty::Locale:
+            result.emplace_back(VersionManifest.DefaultLocalization.Locale);
+            for (const auto& loc : VersionManifest.Localizations)
+            {
+                result.emplace_back(loc.Locale);
+            }
+            break;
         }
 
         return result;
     }
 
-    TestPackageVersion::Manifest TestPackageVersion::GetManifest() const
+    TestPackageVersion::Manifest TestPackageVersion::GetManifest()
     {
         return VersionManifest;
     }
 
     std::shared_ptr<const ISource> TestPackageVersion::GetSource() const
     {
-        return Source;
+        return Source.lock();
     }
 
     TestPackageVersion::MetadataMap TestPackageVersion::GetMetadata() const
@@ -80,20 +119,20 @@ namespace TestCommon
         }
     }
 
-    TestPackage::TestPackage(const std::vector<Manifest>& available)
+    TestPackage::TestPackage(const std::vector<Manifest>& available, std::weak_ptr<const ISource> source)
     {
         for (const auto& manifest : available)
         {
-            AvailableVersions.emplace_back(TestPackageVersion::Make(manifest));
+            AvailableVersions.emplace_back(TestPackageVersion::Make(manifest, source));
         }
     }
 
-    TestPackage::TestPackage(const Manifest& installed, MetadataMap installationMetadata, const std::vector<Manifest>& available) :
-        InstalledVersion(TestPackageVersion::Make(installed, std::move(installationMetadata)))
+    TestPackage::TestPackage(const Manifest& installed, MetadataMap installationMetadata, const std::vector<Manifest>& available, std::weak_ptr<const ISource> source) :
+        InstalledVersion(TestPackageVersion::Make(installed, std::move(installationMetadata), source))
     {
         for (const auto& manifest : available)
         {
-            AvailableVersions.emplace_back(TestPackageVersion::Make(manifest));
+            AvailableVersions.emplace_back(TestPackageVersion::Make(manifest, source));
         }
     }
 
@@ -178,6 +217,28 @@ namespace TestCommon
         return false;
     }
 
+    bool TestPackage::IsSame(const IPackage* other) const
+    {
+        const TestPackage* otherAvailable = dynamic_cast<const TestPackage*>(other);
+
+        if (!otherAvailable ||
+            InstalledVersion.get() != otherAvailable->InstalledVersion.get() ||
+            AvailableVersions.size() != otherAvailable->AvailableVersions.size())
+        {
+            return false;
+        }
+
+        for (size_t i = 0; i < AvailableVersions.size(); ++i)
+        {
+            if (AvailableVersions[i].get() != otherAvailable->AvailableVersions[i].get())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     const SourceDetails& TestSource::GetDetails() const
     {
         return Details;
@@ -185,7 +246,7 @@ namespace TestCommon
 
     const std::string& TestSource::GetIdentifier() const
     {
-        return Identifier;
+        return Details.Identifier;
     }
 
     SearchResult TestSource::Search(const SearchRequest& request) const
@@ -203,5 +264,43 @@ namespace TestCommon
     bool TestSource::IsComposite() const
     {
         return Composite;
+    }
+
+    std::shared_ptr<ISource> TestSourceFactory::Create(const SourceDetails& details, IProgressCallback&)
+    {
+        return OnCreate(details);
+    }
+
+    bool TestSourceFactory::Add(SourceDetails& details, IProgressCallback&)
+    {
+        if (OnAdd)
+        {
+            OnAdd(details);
+        }
+        return true;
+    }
+
+    bool TestSourceFactory::Update(const SourceDetails& details, IProgressCallback&)
+    {
+        if (OnUpdate)
+        {
+            OnUpdate(details);
+        }
+        return true;
+    }
+
+    bool TestSourceFactory::Remove(const SourceDetails& details, IProgressCallback&)
+    {
+        if (OnRemove)
+        {
+            OnRemove(details);
+        }
+        return true;
+    }
+
+    // Make copies of self when requested.
+    TestSourceFactory::operator std::function<std::unique_ptr<ISourceFactory>()>()
+    {
+        return [this]() { return std::make_unique<TestSourceFactory>(*this); };
     }
 }

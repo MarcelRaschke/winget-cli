@@ -37,9 +37,11 @@ namespace AppInstaller::Repository::Microsoft
         // Gets the index.
         const SQLiteIndex& GetIndex() const { return m_index; }
 
+        // Determines if the other source refers to the same as this.
+        bool IsSame(const SQLiteIndexSource* other) const;
+
     private:
         SourceDetails m_details;
-        std::string m_identifier;
         Synchronization::CrossProcessReaderWriteLock m_lock;
         bool m_isInstalled;
         SQLiteIndex m_index;
